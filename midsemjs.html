@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Backend (Sem-01) - Mid-Semester Exam Portal</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: rgba(99, 102, 241, 0.15);
+      --success: #10b981;
+      --success-light: rgba(16, 185, 129, 0.15);
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.15);
+      --warning: #f59e0b;
+      --warning-light: rgba(245, 158, 11, 0.15);
+      --purple: #a855f7;
+      --purple-light: rgba(168, 85, 247, 0.15);
+      --gold: #fbbf24;
+      --code-bg: #090d16;
+      --radius: 12px;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --accent-light: rgba(79, 70, 229, 0.1);
+      --code-bg: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #f7df1e, #eab308);
+      color: #000;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(247, 223, 30, 0.3);
+    }
+
+    .brand-title h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .brand-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .timer-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .timer-badge.warning {
+      color: var(--danger);
+      border-color: var(--danger);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-card);
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: #fff;
+    }
+    .btn-success:hover {
+      opacity: 0.9;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-warning {
+      background-color: var(--warning-light);
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-color);
+      color: var(--text-muted);
+    }
+    .btn-outline:hover {
+      color: var(--text-main);
+      border-color: var(--text-muted);
+    }
+
+    .btn-icon {
+      padding: 8px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .btn-icon:hover {
+      color: var(--text-main);
+    }
+
+    /* Mode Tabs */
+    .mode-toggle {
+      display: flex;
+      background: var(--bg-primary);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .mode-tab {
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .mode-tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Main Container Grid */
+    .main-container {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      padding: 20px 24px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+
+    @media (max-width: 1080px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Question Workspace */
+    .workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 4px;
+    }
+
+    .filter-chip {
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-chip:hover {
+      color: var(--text-main);
+      border-color: var(--accent);
+    }
+
+    .filter-chip.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .filter-chip.bonus-chip.active {
+      background: rgba(251, 191, 36, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Question Card */
+    .question-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .q-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .badge-qnum {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .badge-topic {
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .badge-type {
+      background: var(--purple-light);
+      color: var(--purple);
+      border: 1px solid var(--purple);
+    }
+
+    .badge-diff-basic {
+      background: var(--success-light);
+      color: var(--success);
+    }
+    .badge-diff-medium {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+    .badge-diff-advanced {
+      background: rgba(251, 191, 36, 0.2);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    .badge-marks {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .btn-review-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-review-toggle.marked {
+      background: var(--purple-light);
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    /* Question Prompt */
+    .q-prompt {
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    /* Code Snippet Box */
+    .code-container {
+      background-color: var(--code-bg);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .code-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .code-body {
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      white-space: pre;
+    }
+
+    /* Option Cards */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-card {
+      background-color: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .option-card:hover {
+      background-color: var(--bg-card-hover);
+      border-color: var(--accent);
+    }
+
+    .option-card.selected {
+      background-color: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    .option-card.correct {
+      background-color: var(--success-light) !important;
+      border-color: var(--success) !important;
+    }
+
+    .option-card.incorrect {
+      background-color: var(--danger-light) !important;
+      border-color: var(--danger) !important;
+    }
+
+    .option-indicator {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.2s;
+    }
+
+    .option-card.selected .option-indicator {
+      border-color: var(--accent);
+      background-color: var(--accent);
+    }
+
+    .option-card.selected .option-indicator::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    /* Checkbox indicator for MSQ */
+    .msq-card .option-indicator {
+      border-radius: 5px;
+    }
+    .msq-card.selected .option-indicator::after {
+      content: "✓";
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      background: transparent;
+    }
+
+    .option-text {
+      font-size: 14.5px;
+      line-height: 1.5;
+      color: var(--text-main);
+      flex: 1;
+    }
+
+    /* Fill in Blank input */
+    .blank-input-box {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .blank-input {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 15px;
+      background: var(--bg-primary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      outline: none;
+    }
+
+    .blank-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Explanation & Hint Box */
+    .feedback-box {
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .feedback-box.hint-box {
+      background: var(--warning-light);
+      border: 1px solid var(--warning);
+      color: #fef08a;
+    }
+
+    .feedback-box.explanation-box {
+      background: rgba(30, 41, 59, 0.95);
+      border: 1px solid var(--accent);
+      color: var(--text-main);
+    }
+
+    .feedback-box.visible {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Action Toolbar */
+    .q-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .q-nav-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Right Sidebar Palette */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .palette-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .palette-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .stats-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    .dot-answered { background-color: var(--success); }
+    .dot-unanswered { background-color: #475569; }
+    .dot-review { background-color: var(--purple); }
+    .dot-bonus { background-color: var(--gold); }
+
+    /* Palette Grid */
+    .palette-search {
+      padding: 8px 12px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .grid-container {
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .grid-container::-webkit-scrollbar {
+      width: 5px;
+    }
+    .grid-container::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .questions-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .grid-btn {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.15s;
+    }
+
+    .grid-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    .grid-btn.active {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 2px var(--accent);
+      color: #fff;
+    }
+
+    .grid-btn.answered {
+      background-color: var(--success-light);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .grid-btn.marked {
+      background-color: var(--purple-light);
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    .grid-btn.bonus {
+      position: relative;
+    }
+    .grid-btn.bonus::after {
+      content: "★";
+      position: absolute;
+      top: 1px;
+      right: 3px;
+      font-size: 8px;
+      color: var(--gold);
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .results-modal {
+      max-width: 900px;
+    }
+
+    .score-hero {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .score-number {
+      font-size: 54px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #6366f1, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .score-grade {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+    }
+
+    .grade-distinction { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+    .grade-first { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid #818cf8; }
+    .grade-second { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #fbbf24; }
+    .grade-pass { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid #94a3b8; }
+    .grade-fail { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #f87171; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .metric-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .topic-progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .topic-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .topic-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+
+    .review-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 24px;
+      padding-right: 6px;
+    }
+
+    .review-item {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      header, .sidebar, .q-actions, .filter-bar, .modal-overlay:not(.open) {
+        display: none !important;
+      }
+      .main-container {
+        display: block !important;
+      }
+      .modal-card {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .score-number {
+        -webkit-text-fill-color: #000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand-section">
+      <div class="brand-logo">JS</div>
+      <div class="brand-title">
+        <h1>JavaScript Backend (Sem-01) Exam Portal</h1>
+        <p>Mid-Semester Exam • 40 Marks • 80 Qs Standard + 10 Qs Bonus (90 Total)</p>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <!-- Mode Toggle -->
+      <div class="mode-toggle">
+        <div class="mode-tab active" id="tab-exam" onclick="setPortalMode('exam')">Timed Exam (40M)</div>
+        <div class="mode-tab" id="tab-practice" onclick="setPortalMode('practice')">Study / Practice</div>
+      </div>
+
+      <!-- Timer Badge -->
+      <div class="timer-badge" id="timer-display">
+        <span>⏱️</span>
+        <span id="time-text">60:00</span>
+      </div>
+
+      <!-- Dark / Light Theme Toggle -->
+      <button class="btn-icon" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        🌓
+      </button>
+
+      <!-- Submit Exam Button -->
+      <button class="btn btn-primary" onclick="openSubmitModal()">
+        Submit Exam
+      </button>
+    </div>
+  </header>
+
+  <!-- Main View -->
+  <main class="main-container">
+    
+    <!-- Left Workspace -->
+    <section class="workspace">
+      
+      <!-- Topic & Section Filters -->
+      <div class="filter-bar">
+        <span class="filter-label">Filter:</span>
+        <button class="filter-chip active" onclick="applyTopicFilter('all')">All (90)</button>
+        <button class="filter-chip" onclick="applyTopicFilter('00')">00. Intro</button>
+        <button class="filter-chip" onclick="applyTopicFilter('01')">01. Variables</button>
+        <button class="filter-chip" onclick="applyTopicFilter('02')">02. Operators</button>
+        <button class="filter-chip" onclick="applyTopicFilter('03')">03. Conditionals</button>
+        <button class="filter-chip" onclick="applyTopicFilter('04')">04. Loops</button>
+        <button class="filter-chip" onclick="applyTopicFilter('05')">05. Functions</button>
+        <button class="filter-chip bonus-chip" onclick="applyTopicFilter('bonus')">⭐ Bonus Theory (10)</button>
+      </div>
+
+      <!-- Active Question Card -->
+      <div class="question-card" id="question-card">
+        
+        <!-- Header -->
+        <div class="q-header">
+          <div class="q-badges">
+            <span class="badge badge-qnum" id="q-index-badge">Q 1 / 90</span>
+            <span class="badge badge-topic" id="q-topic-badge">00. Introduction</span>
+            <span class="badge badge-type" id="q-type-badge">Theory</span>
+            <span class="badge badge-diff-basic" id="q-diff-badge">Basic</span>
+            <span class="badge badge-marks" id="q-marks-badge">+0.5 Marks</span>
+          </div>
+
+          <button class="btn-review-toggle" id="btn-review" onclick="toggleMarkForReview()">
+            <span>🚩</span>
+            <span id="review-btn-text">Mark for Review</span>
+          </button>
+        </div>
+
+        <!-- Question Prompt -->
+        <div class="q-prompt" id="q-prompt-text">
+          Loading question text...
+        </div>
+
+        <!-- Code Snippet Area -->
+        <div class="code-container" id="q-code-container" style="display: none;">
+          <div class="code-header">
+            <span>JavaScript</span>
+            <button class="btn btn-outline" style="padding: 2px 8px; font-size: 11px;" onclick="copyCodeSnippet()">Copy Code</button>
+          </div>
+          <pre class="code-body" id="q-code-text"></pre>
+        </div>
+
+        <!-- Options / Input Area -->
+        <div id="q-input-area">
+          <!-- Dynamically populated options or input -->
+        </div>
+
+        <!-- Hint Box (Practice Mode) -->
+        <div class="feedback-box hint-box" id="hint-box">
+          <div class="feedback-title">💡 Helpful Hint</div>
+          <div id="hint-text"></div>
+        </div>
+
+        <!-- Explanation Box (Practice Mode or Post Exam) -->
+        <div class="feedback-box explanation-box" id="explanation-box">
+          <div class="feedback-title">📘 Detailed Solution & Concept Breakdown</div>
+          <div id="explanation-text"></div>
+        </div>
+
+        <!-- Footer / Action Navigation -->
+        <div class="q-actions">
+          <div class="q-nav-group">
+            <button class="btn btn-secondary" onclick="prevQuestion()" id="btn-prev">⬅ Previous</button>
+            <button class="btn btn-secondary" onclick="nextQuestion()" id="btn-next">Next ➡</button>
+          </div>
+
+          <div class="q-nav-group">
+            <button class="btn btn-outline" onclick="clearActiveResponse()">Clear Choice</button>
+            <button class="btn btn-warning" id="btn-show-hint" onclick="toggleHint()" style="display: none;">💡 Show Hint</button>
+            <button class="btn btn-primary" id="btn-check-answer" onclick="checkCurrentAnswer()" style="display: none;">✅ Check Answer</button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Right Sidebar Palette -->
+    <aside class="sidebar">
+      
+      <div class="palette-card">
+        <div class="palette-header">
+          <h3>Question Palette</h3>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">
+            <span>Progress: <strong id="progress-count">0</strong> / 90</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="stats-legend">
+          <div class="legend-item"><span class="legend-dot dot-answered"></span> Answered (<span id="count-answered">0</span>)</div>
+          <div class="legend-item"><span class="legend-dot dot-unanswered"></span> Unanswered (<span id="count-unanswered">90</span>)</div>
+          <div class="legend-item"><span class="legend-dot dot-review"></span> Review (<span id="count-review">0</span>)</div>
+          <div class="legend-item"><span class="legend-dot dot-bonus"></span> Bonus (<span id="count-bonus">10</span>)</div>
+        </div>
+
+        <!-- Search in Palette -->
+        <input type="text" class="palette-search" id="palette-search" placeholder="🔍 Search question keywords..." oninput="handlePaletteSearch()">
+
+        <!-- Grid of 90 Questions -->
+        <div class="grid-container">
+          <div class="questions-grid" id="questions-grid">
+            <!-- 90 items dynamically created -->
+          </div>
+        </div>
+
+        <!-- Quick Jump to Bonus Section -->
+        <button class="btn btn-secondary" style="border-color: var(--gold); color: var(--gold); font-size: 12px;" onclick="jumpToBonus()">
+          ⭐ Jump to Bonus Questions (Q81-Q90)
+        </button>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Submit Confirmation Modal -->
+  <div class="modal-overlay" id="submit-modal">
+    <div class="modal-card">
+      <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 12px;">Submit Examination?</h2>
+      <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+        Please review your progress summary before submitting your examination:
+      </p>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-val" id="modal-answered" style="color: var(--success);">0</div>
+          <div class="metric-lbl">Answered</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="modal-unanswered" style="color: var(--danger);">90</div>
+          <div class="metric-lbl">Unanswered</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="modal-review" style="color: var(--purple);">0</div>
+          <div class="metric-lbl">Marked Review</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeSubmitModal()">Resume Test</button>
+        <button class="btn btn-primary" onclick="finalizeSubmission()">Confirm & View Results</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Results & Scorecard Modal -->
+  <div class="modal-overlay" id="results-modal">
+    <div class="modal-card results-modal">
+      
+      <div class="score-hero">
+        <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px;">Mid-Semester Examination Scorecard</div>
+        <div class="score-number" id="final-score-display">0.0 / 40.0</div>
+        <div style="font-size: 14px; color: var(--gold); font-weight: 600;" id="bonus-score-display">+0.0 Bonus Extra Credit</div>
+        <div>
+          <span class="score-grade" id="final-grade-badge">First Class</span>
+        </div>
+      </div>
+
+      <!-- Metrics Breakdown -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-val" id="res-accuracy">0%</div>
+          <div class="metric-lbl">Accuracy Rate</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="res-correct" style="color: var(--success);">0</div>
+          <div class="metric-lbl">Correct Answers</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="res-incorrect" style="color: var(--danger);">0</div>
+          <div class="metric-lbl">Incorrect Answers</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="res-time-taken">0m</div>
+          <div class="metric-lbl">Time Spent</div>
+        </div>
+      </div>
+
+      <!-- Topic Performance Bars -->
+      <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Topic-Wise Performance</h3>
+      <div class="topic-progress-list" id="topic-performance-list">
+        <!-- Topic progress bars -->
+      </div>
+
+      <!-- Question Type Mastery -->
+      <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Question Type Mastery</h3>
+      <div class="metrics-grid" id="type-mastery-grid" style="margin-bottom: 24px;">
+        <!-- Type cards -->
+      </div>
+
+      <!-- Detailed Review Accordion -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 15px; font-weight: 700;">Question-by-Question Detailed Review</h3>
+        <select class="palette-search" id="review-filter-select" onchange="renderReviewAccordion()" style="width: auto;">
+          <option value="all">Show All Questions (90)</option>
+          <option value="incorrect">Show Incorrect Only</option>
+          <option value="correct">Show Correct Only</option>
+          <option value="skipped">Show Unanswered Only</option>
+        </select>
+      </div>
+
+      <div class="review-accordion" id="review-accordion-list">
+        <!-- Review cards -->
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 16px;">
+        <button class="btn btn-outline" onclick="window.print()">
+          🖨️ Print Report / Save PDF
+        </button>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary" onclick="closeResultsModal()">Back to Review</button>
+          <button class="btn btn-primary" onclick="restartExam()">🔄 Retake Exam</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Load External Questions Bank File -->
+  <script src="questions_data.js"></script>
+
+  <!-- Portal Application Core Logic -->
+  <script>
+    // State Management
+    let questions = [];
+    let currentIdx = 0;
+    let userAnswers = {}; // { questionId: answerString or Array of strings }
+    let markedForReview = new Set();
+    let portalMode = 'exam'; // 'exam' or 'practice'
+    let topicFilter = 'all';
+    let searchQuery = '';
+    let filteredIndices = [];
+    
+    // Timer State
+    let timerDurationSeconds = 60 * 60; // 60 minutes
+    let timeRemaining = timerDurationSeconds;
+    let timerInterval = null;
+    let isExamSubmitted = false;
+    let startTime = Date.now();
+
+    // Initialize Application
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Check if questions loaded from questions_data.js
+      if (window.EXAM_QUESTIONS && Array.isArray(window.EXAM_QUESTIONS)) {
+        questions = window.EXAM_QUESTIONS;
+        initExamPortal();
+      } else {
+        // Fallback: Attempt fetch questions_bank.json if running via web server
+        fetch('questions_bank.json')
+          .then(res => res.json())
+          .then(data => {
+            questions = data;
+            initExamPortal();
+          })
+          .catch(err => {
+            console.error("Failed to load questions_bank.json", err);
+            document.getElementById('q-prompt-text').innerHTML = 
+              "<span style='color: var(--danger);'>Error: Could not load questions data. Please ensure 'questions_data.js' or 'questions_bank.json' is in the same directory.</span>";
+          });
+      }
+    });
+
+    function initExamPortal() {
+      filteredIndices = questions.map((_, i) => i);
+      buildPaletteGrid();
+      loadQuestion(0);
+      updateStatistics();
+      startTimer();
+    }
+
+    // Portal Mode Switcher
+    function setPortalMode(mode) {
+      portalMode = mode;
+      document.getElementById('tab-exam').classList.toggle('active', mode === 'exam');
+      document.getElementById('tab-practice').classList.toggle('active', mode === 'practice');
+
+      const practiceButtons = ['btn-show-hint', 'btn-check-answer'];
+      practiceButtons.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = mode === 'practice' ? 'inline-flex' : 'none';
+      });
+
+      if (mode === 'exam') {
+        document.getElementById('hint-box').classList.remove('visible');
+        document.getElementById('explanation-box').classList.remove('visible');
+      }
+
+      loadQuestion(currentIdx);
+    }
+
+    // Load and Render Active Question
+    function loadQuestion(idx) {
+      if (!questions.length) return;
+      currentIdx = idx;
+      const q = questions[idx];
+
+      // Reset feedback boxes in exam mode
+      document.getElementById('hint-box').classList.remove('visible');
+      if (!isExamSubmitted && portalMode === 'exam') {
+        document.getElementById('explanation-box').classList.remove('visible');
+      }
+
+      // Metadata Badges
+      document.getElementById('q-index-badge').textContent = `Q ${q.id} / ${questions.length}`;
+      document.getElementById('q-topic-badge').textContent = q.topic.replace(/^[0-9]+\./, '').replace(/⭐ Bonus: [0-9]+\./, '⭐ Bonus: ');
+      document.getElementById('q-type-badge').textContent = formatQuestionType(q.type);
+      
+      const diffBadge = document.getElementById('q-diff-badge');
+      diffBadge.textContent = q.difficulty;
+      diffBadge.className = `badge badge-diff-${q.difficulty.toLowerCase()}`;
+
+      document.getElementById('q-marks-badge').textContent = `+${q.marks.toFixed(1)} ${q.topicId === 'bonus' ? 'Bonus Mark' : 'Marks'}`;
+
+      // Mark for review toggle state
+      const isMarked = markedForReview.has(q.id);
+      const reviewBtn = document.getElementById('btn-review');
+      reviewBtn.classList.toggle('marked', isMarked);
+      document.getElementById('review-btn-text').textContent = isMarked ? 'Marked for Review' : 'Mark for Review';
+
+      // Question Prompt
+      document.getElementById('q-prompt-text').textContent = q.question;
+
+      // Code Snippet
+      const codeContainer = document.getElementById('q-code-container');
+      const codeText = document.getElementById('q-code-text');
+      if (q.code) {
+        codeContainer.style.display = 'block';
+        codeText.textContent = q.code;
+      } else {
+        codeContainer.style.display = 'none';
+      }
+
+      // Render Options / Inputs
+      renderInputArea(q);
+
+      // Prepopulate Hints & Explanations
+      document.getElementById('hint-text').textContent = q.hint || "Analyze the language specification rules for this topic.";
+      document.getElementById('explanation-text').innerHTML = `
+        <div style="margin-bottom: 8px;"><strong>Correct Answer:</strong> <span style="color: var(--success); font-weight: 700;">${Array.isArray(q.answer) ? q.answer.join(', ') : q.answer}</span></div>
+        <p>${q.explanation}</p>
+      `;
+
+      // Update palette active highlight
+      updatePaletteActive();
+    }
+
+    function formatQuestionType(type) {
+      const map = {
+        'theory': 'Theory (Spec / Core)',
+        'output': 'Output Prediction',
+        'debugging': 'Spot the Bug',
+        'msq': 'Multiple Select (MSQ)',
+        'fill_blank': 'Fill in the Blank',
+        'true_false': 'True / False',
+        'assertion_reason': 'Assertion & Reason'
+      };
+      return map[type] || type.toUpperCase();
+    }
+
+    // Render Options / Inputs based on Question Type
+    function renderInputArea(q) {
+      const container = document.getElementById('q-input-area');
+      container.innerHTML = '';
+      const savedAns = userAnswers[q.id];
+
+      if (q.type === 'fill_blank') {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'blank-input-box';
+        wrapper.innerHTML = `
+          <input type="text" class="blank-input" id="blank-input-${q.id}" placeholder="Type your answer here..." value="${savedAns || ''}" oninput="saveBlankAnswer(${q.id}, this.value)">
+        `;
+        container.appendChild(wrapper);
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'options-grid';
+      if (q.type === 'msq') grid.classList.add('msq-card');
+
+      q.options.forEach((optText, optIdx) => {
+        const card = document.createElement('div');
+        card.className = 'option-card';
+        if (q.type === 'msq') card.classList.add('msq-card');
+
+        // Extract option key (A, B, C, D)
+        const optKey = optText.charAt(0);
+        const isSelected = q.type === 'msq'
+          ? (Array.isArray(savedAns) && savedAns.includes(optKey))
+          : (savedAns === optKey || savedAns === optText);
+
+        if (isSelected) card.classList.add('selected');
+
+        // If practice mode and check answer already evaluated
+        if (card.dataset.checked === 'true') {
+          // styling will be handled by checkCurrentAnswer
+        }
+
+        card.innerHTML = `
+          <div class="option-indicator"></div>
+          <div class="option-text">${optText}</div>
+        `;
+
+        card.onclick = () => handleOptionClick(q, optKey, optText);
+        grid.appendChild(card);
+      });
+
+      container.appendChild(grid);
+    }
+
+    // Option Selection Handlers
+    function handleOptionClick(q, optKey, optText) {
+      if (isExamSubmitted && portalMode === 'exam') return;
+
+      if (q.type === 'msq') {
+        if (!Array.isArray(userAnswers[q.id])) {
+          userAnswers[q.id] = [];
+        }
+        const idx = userAnswers[q.id].indexOf(optKey);
+        if (idx > -1) {
+          userAnswers[q.id].splice(idx, 1);
+        } else {
+          userAnswers[q.id].push(optKey);
+        }
+        if (userAnswers[q.id].length === 0) {
+          delete userAnswers[q.id];
+        }
+      } else {
+        // Single choice (MCQ, True/False, Assertion/Reason)
+        // Store just the letter key ('A', 'B', etc.)
+        userAnswers[q.id] = optKey;
+      }
+
+      renderInputArea(q);
+      updateStatistics();
+      updatePaletteItem(q.id);
+    }
+
+    function saveBlankAnswer(qId, val) {
+      const trimmed = val.trim();
+      if (trimmed.length > 0) {
+        userAnswers[qId] = trimmed;
+      } else {
+        delete userAnswers[qId];
+      }
+      updateStatistics();
+      updatePaletteItem(qId);
+    }
+
+    function clearActiveResponse() {
+      const q = questions[currentIdx];
+      delete userAnswers[q.id];
+      renderInputArea(q);
+      updateStatistics();
+      updatePaletteItem(q.id);
+    }
+
+    function toggleMarkForReview() {
+      const q = questions[currentIdx];
+      if (markedForReview.has(q.id)) {
+        markedForReview.delete(q.id);
+      } else {
+        markedForReview.add(q.id);
+      }
+      const isMarked = markedForReview.has(q.id);
+      document.getElementById('btn-review').classList.toggle('marked', isMarked);
+      document.getElementById('review-btn-text').textContent = isMarked ? 'Marked for Review' : 'Mark for Review';
+      updateStatistics();
+      updatePaletteItem(q.id);
+    }
+
+    // Navigation Controls
+    function prevQuestion() {
+      if (currentIdx > 0) {
+        loadQuestion(currentIdx - 1);
+      }
+    }
+
+    function nextQuestion() {
+      if (currentIdx < questions.length - 1) {
+        loadQuestion(currentIdx + 1);
+      }
+    }
+
+    function jumpToBonus() {
+      applyTopicFilter('bonus');
+      loadQuestion(80); // Q81 index is 80
+    }
+
+    // Practice Mode Tools: Hint & Check Answer
+    function toggleHint() {
+      const box = document.getElementById('hint-box');
+      box.classList.toggle('visible');
+    }
+
+    function checkCurrentAnswer() {
+      const q = questions[currentIdx];
+      const explanationBox = document.getElementById('explanation-box');
+      explanationBox.classList.add('visible');
+
+      const cards = document.querySelectorAll('.option-card');
+      const correctAns = q.answer;
+
+      cards.forEach(card => {
+        const text = card.querySelector('.option-text').textContent;
+        const key = text.charAt(0);
+
+        card.classList.remove('correct', 'incorrect');
+
+        if (Array.isArray(correctAns)) {
+          if (correctAns.includes(key)) {
+            card.classList.add('correct');
+          } else if (card.classList.contains('selected')) {
+            card.classList.add('incorrect');
+          }
+        } else {
+          if (key === correctAns || text === correctAns) {
+            card.classList.add('correct');
+          } else if (card.classList.contains('selected')) {
+            card.classList.add('incorrect');
+          }
+        }
+      });
+    }
+
+    // Palette & Filtering Logic
+    function buildPaletteGrid() {
+      const grid = document.getElementById('questions-grid');
+      grid.innerHTML = '';
+
+      questions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'grid-btn';
+        btn.id = `palette-btn-${q.id}`;
+        btn.textContent = q.id;
+        if (q.topicId === 'bonus') btn.classList.add('bonus');
+
+        btn.onclick = () => loadQuestion(idx);
+        grid.appendChild(btn);
+      });
+    }
+
+    function updatePaletteItem(qId) {
+      const btn = document.getElementById(`palette-btn-${qId}`);
+      if (!btn) return;
+
+      const isAnswered = userAnswers[qId] !== undefined;
+      const isMarked = markedForReview.has(qId);
+
+      btn.classList.toggle('answered', isAnswered);
+      btn.classList.toggle('marked', isMarked);
+    }
+
+    function updatePaletteActive() {
+      document.querySelectorAll('.grid-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === currentIdx);
+      });
+    }
+
+    function applyTopicFilter(topic) {
+      topicFilter = topic;
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.textContent.toLowerCase().includes(topic));
+        if (topic === 'all' && chip.textContent.includes('All')) chip.classList.add('active');
+        if (topic === 'bonus' && chip.classList.contains('bonus-chip')) chip.classList.add('active');
+      });
+
+      // Filter grid items visibility
+      questions.forEach((q, idx) => {
+        const btn = document.getElementById(`palette-btn-${q.id}`);
+        if (!btn) return;
+
+        let visible = true;
+        if (topic !== 'all') {
+          if (topic === 'bonus') {
+            visible = q.topicId === 'bonus';
+          } else {
+            visible = q.topicId === topic;
+          }
+        }
+        btn.style.display = visible ? 'flex' : 'none';
+      });
+
+      // Jump to first matching question
+      const firstIdx = questions.findIndex(q => topic === 'all' ? true : (topic === 'bonus' ? q.topicId === 'bonus' : q.topicId === topic));
+      if (firstIdx !== -1) loadQuestion(firstIdx);
+    }
+
+    function handlePaletteSearch() {
+      const query = document.getElementById('palette-search').value.toLowerCase().trim();
+      questions.forEach(q => {
+        const btn = document.getElementById(`palette-btn-${q.id}`);
+        if (!btn) return;
+        const match = q.question.toLowerCase().includes(query) || (q.code && q.code.toLowerCase().includes(query));
+        btn.style.display = match ? 'flex' : 'none';
+      });
+    }
+
+    function updateStatistics() {
+      const total = questions.length;
+      const answeredCount = Object.keys(userAnswers).length;
+      const reviewCount = markedForReview.size;
+      const unansweredCount = total - answeredCount;
+      const pct = Math.round((answeredCount / total) * 100);
+
+      document.getElementById('progress-count').textContent = answeredCount;
+      document.getElementById('progress-percent').textContent = `${pct}%`;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+
+      document.getElementById('count-answered').textContent = answeredCount;
+      document.getElementById('count-unanswered').textContent = unansweredCount;
+      document.getElementById('count-review').textContent = reviewCount;
+    }
+
+    // Timer Implementation
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (portalMode === 'exam' && !isExamSubmitted) {
+          timeRemaining--;
+          updateTimerDisplay();
+
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert("⏰ Examination Time has expired! Submitting your exam automatically.");
+            finalizeSubmission();
+          }
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      
+      const timeText = document.getElementById('time-text');
+      const badge = document.getElementById('timer-display');
+
+      timeText.textContent = display;
+      if (timeRemaining <= 300) { // 5 minutes remaining
+        badge.classList.add('warning');
+      } else {
+        badge.classList.remove('warning');
+      }
+    }
+
+    // Modal Operations
+    function openSubmitModal() {
+      const total = questions.length;
+      const answeredCount = Object.keys(userAnswers).length;
+      const reviewCount = markedForReview.size;
+      const unansweredCount = total - answeredCount;
+
+      document.getElementById('modal-answered').textContent = answeredCount;
+      document.getElementById('modal-unanswered').textContent = unansweredCount;
+      document.getElementById('modal-review').textContent = reviewCount;
+
+      document.getElementById('submit-modal').classList.add('open');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('submit-modal').classList.remove('open');
+    }
+
+    function closeResultsModal() {
+      document.getElementById('results-modal').classList.remove('open');
+    }
+
+    // Final Grading & Submission Calculation
+    function finalizeSubmission() {
+      isExamSubmitted = true;
+      closeSubmitModal();
+      clearInterval(timerInterval);
+
+      // Scoring scheme:
+      // Standard 80 questions: 0.5 marks each = 40.0 Marks total
+      // Bonus 10 questions: 1.0 mark each = up to +10.0 Marks
+      let standardScore = 0;
+      let bonusScore = 0;
+      let totalCorrect = 0;
+      let totalIncorrect = 0;
+
+      const topicStats = {};
+      const typeStats = {};
+
+      questions.forEach(q => {
+        const isBonus = q.topicId === 'bonus';
+        const userAns = userAnswers[q.id];
+        let isCorrect = false;
+
+        // Init stats
+        if (!topicStats[q.topic]) topicStats[q.topic] = { total: 0, correct: 0, marksPossible: 0, marksEarned: 0 };
+        if (!typeStats[q.type]) typeStats[q.type] = { total: 0, correct: 0 };
+
+        topicStats[q.topic].total++;
+        topicStats[q.topic].marksPossible += q.marks;
+        typeStats[q.type].total++;
+
+        if (userAns !== undefined) {
+          if (q.type === 'msq') {
+            const expected = q.answer.slice().sort().join(',');
+            const actual = (Array.isArray(userAns) ? userAns.slice().sort().join(',') : userAns);
+            isCorrect = expected === actual;
+          } else if (q.type === 'fill_blank') {
+            const expected = q.answer.toLowerCase().trim();
+            const actual = String(userAns).toLowerCase().trim();
+            isCorrect = expected === actual || (q.options && q.options.some(opt => opt.charAt(0) === actual.toUpperCase() && opt.toLowerCase().includes(expected)));
+          } else {
+            isCorrect = userAns === q.answer;
+          }
+        }
+
+        if (isCorrect) {
+          totalCorrect++;
+          topicStats[q.topic].correct++;
+          topicStats[q.topic].marksEarned += q.marks;
+          typeStats[q.type].correct++;
+
+          if (isBonus) {
+            bonusScore += q.marks;
+          } else {
+            standardScore += q.marks;
+          }
+        } else if (userAns !== undefined) {
+          totalIncorrect++;
+        }
+      });
+
+      // Compute grade
+      const maxStandardMarks = 40.0;
+      const percentage = (standardScore / maxStandardMarks) * 100;
+      let grade = "Needs Revision";
+      let gradeClass = "grade-fail";
+
+      if (percentage >= 75) {
+        grade = "Distinction (Honors)";
+        gradeClass = "grade-distinction";
+      } else if (percentage >= 60) {
+        grade = "First Class";
+        gradeClass = "grade-first";
+      } else if (percentage >= 50) {
+        grade = "Second Class";
+        gradeClass = "grade-second";
+      } else if (percentage >= 40) {
+        grade = "Pass";
+        gradeClass = "grade-pass";
+      }
+
+      // Populate Modal Score
+      document.getElementById('final-score-display').textContent = `${standardScore.toFixed(1)} / ${maxStandardMarks.toFixed(1)}`;
+      document.getElementById('bonus-score-display').textContent = `+${bonusScore.toFixed(1)} Bonus Extra Credit Marks`;
+      
+      const gradeBadge = document.getElementById('final-grade-badge');
+      gradeBadge.textContent = grade;
+      gradeBadge.className = `score-grade ${gradeClass}`;
+
+      document.getElementById('res-accuracy').textContent = `${Math.round((totalCorrect / Math.max(1, Object.keys(userAnswers).length)) * 100)}%`;
+      document.getElementById('res-correct').textContent = totalCorrect;
+      document.getElementById('res-incorrect').textContent = totalIncorrect;
+
+      const secondsElapsed = Math.floor((Date.now() - startTime) / 1000);
+      const elapsedMin = Math.floor(secondsElapsed / 60);
+      const elapsedSec = secondsElapsed % 60;
+      document.getElementById('res-time-taken').textContent = `${elapsedMin}m ${elapsedSec}s`;
+
+      // Render Topic Performance Bars
+      const topicList = document.getElementById('topic-performance-list');
+      topicList.innerHTML = '';
+      Object.keys(topicStats).forEach(t => {
+        const stat = topicStats[t];
+        const pct = Math.round((stat.correct / stat.total) * 100);
+        const row = document.createElement('div');
+        row.className = 'topic-row';
+        row.innerHTML = `
+          <div class="topic-info">
+            <span><strong>${t}</strong> (${stat.correct}/${stat.total} Qs)</span>
+            <span><strong>${stat.marksEarned.toFixed(1)} / ${stat.marksPossible.toFixed(1)} Marks</strong> (${pct}%)</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: ${pct}%; background: ${pct >= 60 ? 'var(--success)' : 'var(--warning)'};"></div>
+          </div>
+        `;
+        topicList.appendChild(row);
+      });
+
+      // Render Type Mastery Cards
+      const typeGrid = document.getElementById('type-mastery-grid');
+      typeGrid.innerHTML = '';
+      Object.keys(typeStats).forEach(typ => {
+        const stat = typeStats[typ];
+        const card = document.createElement('div');
+        card.className = 'metric-card';
+        card.innerHTML = `
+          <div class="metric-val">${stat.correct} / ${stat.total}</div>
+          <div class="metric-lbl">${formatQuestionType(typ)}</div>
+        `;
+        typeGrid.appendChild(card);
+      });
+
+      // Render Review Accordion
+      renderReviewAccordion();
+
+      // Show Results Modal
+      document.getElementById('results-modal').classList.add('open');
+
+      // Enable explanation visibility for review in main view
+      setPortalMode('practice');
+    }
+
+    function renderReviewAccordion() {
+      const filter = document.getElementById('review-filter-select').value;
+      const list = document.getElementById('review-accordion-list');
+      list.innerHTML = '';
+
+      questions.forEach((q, idx) => {
+        const userAns = userAnswers[q.id];
+        let isCorrect = false;
+
+        if (userAns !== undefined) {
+          if (q.type === 'msq') {
+            const expected = q.answer.slice().sort().join(',');
+            const actual = (Array.isArray(userAns) ? userAns.slice().sort().join(',') : userAns);
+            isCorrect = expected === actual;
+          } else if (q.type === 'fill_blank') {
+            isCorrect = String(userAns).toLowerCase().trim() === q.answer.toLowerCase().trim();
+          } else {
+            isCorrect = userAns === q.answer;
+          }
+        }
+
+        const isSkipped = userAns === undefined;
+
+        if (filter === 'correct' && !isCorrect) return;
+        if (filter === 'incorrect' && (isCorrect || isSkipped)) return;
+        if (filter === 'skipped' && !isSkipped) return;
+
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        item.style.borderLeft = `4px solid ${isCorrect ? 'var(--success)' : (isSkipped ? 'var(--text-muted)' : 'var(--danger)')}`;
+
+        item.innerHTML = `
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <strong style="color: var(--text-main);">Q${q.id}. ${q.topic}</strong>
+            <span style="font-size: 11px; font-weight: 700; color: ${isCorrect ? 'var(--success)' : (isSkipped ? 'var(--text-muted)' : 'var(--danger)')};">
+              ${isCorrect ? '✓ CORRECT' : (isSkipped ? '— SKIPPED' : '✗ INCORRECT')}
+            </span>
+          </div>
+          <p style="font-size: 13.5px; margin-bottom: 8px;">${q.question}</p>
+          ${q.code ? `<pre style="background: #000; padding: 8px; border-radius: 6px; font-size: 12px; margin-bottom: 8px; color: #a5f3fc;">${q.code}</pre>` : ''}
+          <div style="font-size: 12.5px; margin-bottom: 6px;">
+            <span>Your Answer: <strong style="color: ${isCorrect ? 'var(--success)' : 'var(--danger)'};">${userAns || 'None (Skipped)'}</strong></span>
+            &nbsp;•&nbsp;
+            <span>Correct Answer: <strong style="color: var(--success);">${Array.isArray(q.answer) ? q.answer.join(', ') : q.answer}</strong></span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5; border-top: 1px dashed var(--border-color); padding-top: 6px;">
+            <strong>Explanation:</strong> ${q.explanation}
+          </p>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function restartExam() {
+      if (confirm("Are you sure you want to restart the exam? All recorded answers will be reset.")) {
+        userAnswers = {};
+        markedForReview.clear();
+        isExamSubmitted = false;
+        timeRemaining = timerDurationSeconds;
+        startTime = Date.now();
+        closeResultsModal();
+        setPortalMode('exam');
+        initExamPortal();
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.body.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.body.setAttribute('data-theme', next);
+    }
+
+    function copyCodeSnippet() {
+      const code = document.getElementById('q-code-text').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Code copied to clipboard!");
+      });
+    }
+  </script>
+
+</body>
+</html>
+
