@@ -1179,13 +1179,1733 @@
     </div>
   </div>
 
-  <!-- Load External Questions Bank File -->
-  <script src="questions_data.js"></script>
-
-  <!-- Portal Application Core Logic -->
+  <!-- Embedded Complete Question Bank (Self-Contained Single-File Architecture) -->
   <script>
+    const EMBEDDED_QUESTIONS = [
+  {
+    "id": 1,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Who created the JavaScript programming language, in what year was it first developed at Netscape, and what was its original internal project codename?",
+    "code": null,
+    "options": [
+      "A. James Gosling, 1991, Oak",
+      "B. Brendan Eich, 1995, Mocha",
+      "C. Guido van Rossum, 1989, Python",
+      "D. Bjarne Stroustrup, 1983, Cfront"
+    ],
+    "answer": "B",
+    "explanation": "Brendan Eich developed JavaScript in May 1995 in just 10 days while working at Netscape Communications. The project was initially codenamed 'Mocha', briefly named 'LiveScript' when shipped in Netscape Navigator 2.0 beta, and ultimately rebranded as 'JavaScript' in December 1995.",
+    "hint": "Think of the Netscape engineer who later co-founded Mozilla and Brave."
+  },
+  {
+    "id": 2,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What is the relationship between JavaScript and ECMAScript?",
+    "code": null,
+    "options": [
+      "A. JavaScript is the official specification, while ECMAScript is the browser engine implementation.",
+      "B. ECMAScript is the standard specification (ECMA-262), while JavaScript is a language implementation adhering to that standard.",
+      "C. They are completely independent languages developed by competing browser vendors.",
+      "D. ECMAScript is a superset of JavaScript that compiles directly to Java bytecodes."
+    ],
+    "answer": "B",
+    "explanation": "ECMAScript is the official language standard defined under ECMA-262. JavaScript is an implementation of ECMAScript that also incorporates host environment APIs (such as DOM and Fetch in browsers, or fs and http in Node.js).",
+    "hint": "Think of ECMAScript as the blueprint/specification and JavaScript as the actual house/implementation."
+  },
+  {
+    "id": 3,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following best describes how modern JavaScript engines (such as Google V8) execute JavaScript source code?",
+    "code": null,
+    "options": [
+      "A. Pure interpretation line-by-line with zero compilation.",
+      "B. Traditional Ahead-of-Time (AOT) static binary compilation before shipping.",
+      "C. Just-In-Time (JIT) compilation: parsing into an AST, generating bytecode via an interpreter (Ignition), and compiling hot code into optimized machine code (TurboFan).",
+      "D. Transpiling JavaScript directly into C++ and running it through GCC."
+    ],
+    "answer": "C",
+    "explanation": "Modern JavaScript engines use JIT (Just-In-Time) compilation. V8 parses source code into an Abstract Syntax Tree (AST), generates bytecode via the Ignition interpreter for fast startup, and profiles running code. 'Hot' (frequently run) functions are compiled by TurboFan into optimized native machine code.",
+    "hint": "Consider the multi-tier architecture combining interpreter bytecode with an optimizing compiler."
+  },
+  {
+    "id": 4,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "JavaScript is described as a 'single-threaded' language with a single Call Stack. What does this fundamentally mean?",
+    "code": null,
+    "options": [
+      "A. It can execute multiple functions simultaneously across multiple CPU cores on its main thread.",
+      "B. It executes one command or function at a time synchronously in a Last-In, First-Out (LIFO) call stack structure.",
+      "C. It cannot run asynchronous I/O operations under any circumstances.",
+      "D. It can only run on single-core microcontrollers."
+    ],
+    "answer": "B",
+    "explanation": "A single-threaded language has one main thread of execution and one Call Stack. Only one task or instruction can be processed on the call stack at any given moment. Asynchrony is handled cooperatively via runtime Web APIs/libuv and the Event Loop.",
+    "hint": "Think of a stack of plates: you can only add or remove one plate at a time from the top."
+  },
+  {
+    "id": 5,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following is NOT a feature or consequence of enabling Strict Mode using 'use strict' in JavaScript?",
+    "code": null,
+    "options": [
+      "A. Assigning values to undeclared variables throws a ReferenceError instead of creating global variables.",
+      "B. Deleting non-configurable properties or plain variable names throws a SyntaxError.",
+      "C. Duplicate parameter names in a function definition cause a SyntaxError.",
+      "D. JavaScript variables are automatically converted into statically typed variables at runtime."
+    ],
+    "answer": "D",
+    "explanation": "'use strict' enforces cleaner, safer coding rules by throwing errors for bad practices (like accidental globals, duplicate parameters, or deleting identifiers). It does NOT make JavaScript statically typed; JS remains dynamically typed.",
+    "hint": "Strict mode prevents common mistakes, but does it change the dynamic typing nature of JS?"
+  },
+  {
+    "id": 6,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be the output of running the following script?",
+    "code": "function checkMode() {\n  \"use strict\";\n  message = \"Backend Exam\";\n  console.log(message);\n}\ncheckMode();",
+    "options": [
+      "A. \"Backend Exam\"",
+      "B. undefined",
+      "C. ReferenceError: message is not defined",
+      "D. TypeError: Cannot assign to read only property"
+    ],
+    "answer": "C",
+    "explanation": "In non-strict mode, assigning to an undeclared variable creates an implicit global variable. However, in strict mode ('use strict'), assigning to an undeclared variable throws an immediate ReferenceError: message is not defined.",
+    "hint": "Without 'var', 'let', or 'const', strict mode blocks auto-global variable creation."
+  },
+  {
+    "id": 7,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "debugging",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "A developer writes the following snippet under strict mode and encounters an error. Identify the root cause:",
+    "code": "\"use strict\";\nlet score = 95;\ndelete score;\nconsole.log(score);",
+    "options": [
+      "A. Variable score cannot hold a number.",
+      "B. Deleting a plain variable identifier throws a SyntaxError in strict mode.",
+      "C. score becomes undefined, so console.log fails.",
+      "D. let declarations cannot be used alongside 'use strict'."
+    ],
+    "answer": "B",
+    "explanation": "The 'delete' operator is designed solely for removing properties from objects (e.g., delete obj.prop). In strict mode, attempting to delete an unqualified identifier/variable (delete score) throws a SyntaxError: Delete of an unqualified identifier in strict mode.",
+    "hint": "What is the delete operator intended to operate on in JavaScript?"
+  },
+  {
+    "id": 8,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "msq",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Which of the following environments/engines are capable of parsing and executing JavaScript? (Select all that apply)",
+    "options": [
+      "A. Google Chrome (V8 Engine)",
+      "B. Node.js (V8 Engine + libuv)",
+      "C. Mozilla Firefox (SpiderMonkey Engine)",
+      "D. Apple Safari (JavaScriptCore / Nitro Engine)",
+      "E. Apache Tomcat (Java Servlet Engine)"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "Chrome and Node.js use Google's V8 engine, Firefox uses Mozilla's SpiderMonkey, and Safari uses Apple's JavaScriptCore. Apache Tomcat is a Java servlet container and is not a native JavaScript runtime engine.",
+    "hint": "Look for the major browser engines and server-side JS runtimes."
+  },
+  {
+    "id": 9,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "true_false",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Statement: 'JavaScript is a statically-typed language because modern backend frameworks like Node.js enforce strict data typing at compile time.'",
+    "options": [
+      "A. True",
+      "B. False"
+    ],
+    "answer": "B",
+    "explanation": "False. JavaScript is dynamically typed (types are associated with runtime values, not declared variable types). A variable can hold a number, and later be reassigned a string or object. TypeScript provides static typing, but native JavaScript remains dynamically typed.",
+    "hint": "Can you reassign a string to a variable that previously held a number in JavaScript?"
+  },
+  {
+    "id": 10,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "When including an external script in HTML, the boolean attribute used to download the script asynchronously while continuing HTML parsing, but deferring script execution until after the HTML document has been completely parsed is called ______.",
+    "code": "<script ______ src=\"backend.js\"><\\/script>",
+    "options": [
+      "A. async",
+      "B. defer",
+      "C. preload",
+      "D. blocking"
+    ],
+    "answer": "B",
+    "explanation": "The 'defer' attribute instructs the browser to download the script in the background without blocking DOM parsing, and guarantees execution in document order after the DOM has fully parsed (just before DOMContentLoaded). 'async' downloads in parallel but pauses parsing to execute immediately once ready.",
+    "hint": "This attribute guarantees execution order after HTML is parsed."
+  },
+  {
+    "id": 11,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "assertion_reason",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Read the following statements:\nAssertion (A): JavaScript can perform non-blocking asynchronous operations such as network requests and file reads without blocking its main thread.\nReason (R): The JavaScript runtime environment provides an Event Loop and worker thread pools (such as libuv in Node.js or Web APIs in browsers) that process I/O tasks outside the main call stack.",
+    "code": null,
+    "options": [
+      "A. Both A and R are true, and R is the correct explanation of A.",
+      "B. Both A and R are true, but R is NOT the correct explanation of A.",
+      "C. A is true, but R is false.",
+      "D. A is false, but R is true."
+    ],
+    "answer": "A",
+    "explanation": "Both Assertion and Reason are true. Despite JS having a single call stack on the main thread, the surrounding runtime environment (libuv/Web APIs) handles I/O on background OS threads and posts completion callbacks to queues, which the Event Loop pushes to the stack when free.",
+    "hint": "How does single-threaded JS handle heavy I/O without freezing?"
+  },
+  {
+    "id": 12,
+    "topicId": "00",
+    "topic": "00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the core distinction between a 'JavaScript Engine' and a 'JavaScript Runtime Environment'?",
+    "code": null,
+    "options": [
+      "A. The Engine executes SQL queries, while the Runtime renders CSS styles.",
+      "B. The Engine (e.g., V8) parses, compiles, and manages memory for JavaScript; the Runtime wraps the engine with host APIs (DOM, timers, fs) and the Event Loop.",
+      "C. The Engine is only used on the client-side, while the Runtime is only used on the backend.",
+      "D. There is no technical distinction; they refer to the exact same software component."
+    ],
+    "answer": "B",
+    "explanation": "The JavaScript engine (V8, SpiderMonkey, JSC) is the core compiler/interpreter that executes ECMAScript code and manages memory. The runtime environment (Browser or Node.js) wraps that engine with platform-specific APIs (window, document, fetch, fs, http) and provides the event loop.",
+    "hint": "Think of the engine as the car motor and runtime as the entire car with dashboard and wheels."
+  },
+  {
+    "id": 13,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Which of the following statements regarding 'var', 'let', and 'const' is completely ACCURATE?",
+    "code": null,
+    "options": [
+      "A. 'var' is block-scoped, whereas 'let' and 'const' are function-scoped.",
+      "B. Global 'var' declarations create properties on the global object (window/global), whereas 'let' and 'const' do not.",
+      "C. 'const' prevents mutation of properties inside objects and elements inside arrays.",
+      "D. 'let' variables can be redeclared within the exact same scope block without error."
+    ],
+    "answer": "B",
+    "explanation": "Global 'var' attaches itself to the global object (window.a in browser or global in older scripts). 'let' and 'const' are block-scoped and live in a separate Declarative Environment Record without adding properties to the global object. 'const' only prevents reassignment of the variable binding, not internal property mutation.",
+    "hint": "Check how global declarations interact with the window object in browsers."
+  },
+  {
+    "id": 14,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "According to the ECMAScript specification, how many primitive data types exist in modern JavaScript?",
+    "code": null,
+    "options": [
+      "A. 5 (String, Number, Boolean, Object, Array)",
+      "B. 6 (String, Number, Boolean, Null, Undefined, Function)",
+      "C. 7 (String, Number, BigInt, Boolean, Symbol, Null, Undefined)",
+      "D. 8 (String, Number, BigInt, Boolean, Symbol, Null, Undefined, Object)"
+    ],
+    "answer": "C",
+    "explanation": "There are exactly 7 primitive data types in modern JavaScript: String, Number, BigInt, Boolean, Symbol, Null, and Undefined. Object (which encompasses plain objects, Arrays, Functions, Dates, etc.) is a Reference type, not a primitive.",
+    "hint": "Remember that primitives are immutable and not objects. Is Object a primitive?"
+  },
+  {
+    "id": 15,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the 'Temporal Dead Zone' (TDZ) in JavaScript?",
+    "code": null,
+    "options": [
+      "A. The time interval between an asynchronous timer being registered and its callback execution.",
+      "B. The span within a scope from the beginning of the block until the variable's declaration statement is evaluated, during which accessing let/const throws a ReferenceError.",
+      "C. The cleanup phase of the JavaScript garbage collector when unreachable heap objects are freed.",
+      "D. The state when a variable is initialized to undefined during the creation phase of an execution context."
+    ],
+    "answer": "B",
+    "explanation": "Although 'let' and 'const' declarations are hoisted to the top of their enclosing block, they are not initialized. The period from entering the block until the actual line of declaration is executed is the Temporal Dead Zone (TDZ). Attempting to read or write to the variable during this window throws a ReferenceError.",
+    "hint": "What happens if you try to log a 'let' variable before its declaration line?"
+  },
+  {
+    "id": 16,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "output",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What will be printed to the console when the following line is evaluated?",
+    "code": "console.log(typeof null, typeof undefined, typeof NaN, typeof 50n);",
+    "options": [
+      "A. \"null\" \"undefined\" \"number\" \"bigint\"",
+      "B. \"object\" \"undefined\" \"number\" \"bigint\"",
+      "C. \"object\" \"undefined\" \"NaN\" \"number\"",
+      "D. \"null\" \"undefined\" \"NaN\" \"bigint\""
+    ],
+    "answer": "B",
+    "explanation": "1. typeof null is historically 'object'. 2. typeof undefined is 'undefined'. 3. NaN stands for Not-a-Number, but its technical ECMAScript type is 'number'. 4. 50n is a BigInt literal, so typeof is 'bigint'.",
+    "hint": "Remember the famous historical bug with null, and what type NaN represents."
+  },
+  {
+    "id": 17,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Predict the exact console output of the following JavaScript snippet:",
+    "code": "function hoistTest() {\n  console.log(a);\n  console.log(b);\n  var a = \"JavaScript\";\n  let b = \"Backend\";\n}\nhoistTest();",
+    "options": [
+      "A. undefined followed by \"Backend\"",
+      "B. undefined followed by ReferenceError: Cannot access 'b' before initialization",
+      "C. ReferenceError: a is not defined",
+      "D. undefined followed by undefined"
+    ],
+    "answer": "B",
+    "explanation": "'var a' is hoisted and initialized to undefined during the creation phase, so console.log(a) prints 'undefined'. 'let b' is hoisted into its block scope but remains uninitialized in the Temporal Dead Zone (TDZ). Accessing 'b' before its declaration throws 'ReferenceError: Cannot access 'b' before initialization'.",
+    "hint": "var is hoisted and initialized to undefined, but let is uninitialized in TDZ."
+  },
+  {
+    "id": 18,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "output",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What is the console output of the following code snippet?",
+    "code": "const config = { port: 3000, env: \"development\" };\nconfig.port = 8080;\nconfig.database = \"PostgreSQL\";\nconsole.log(config.port, config.database);",
+    "options": [
+      "A. TypeError: Assignment to constant variable",
+      "B. 3000 undefined",
+      "C. 8080 \"PostgreSQL\"",
+      "D. undefined undefined"
+    ],
+    "answer": "C",
+    "explanation": "'const' creates an immutable variable binding (the variable cannot be reassigned to point to another memory address, such as config = {}). However, the object itself stored in heap memory is mutable: its properties can be modified, added, or deleted freely.",
+    "hint": "Does 'const' freeze the properties of an object or only the reference pointer?"
+  },
+  {
+    "id": 19,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "debugging",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "A developer runs the code below to count down from 3, but it throws an unhandled error. What causes this runtime exception?",
+    "code": "for (const step = 3; step > 0; step--) {\n  console.log(\"T-minus:\", step);\n}",
+    "options": [
+      "A. SyntaxError: 'step--' cannot be executed inside a for loop header.",
+      "B. TypeError: Assignment to constant variable at the end of the first iteration during 'step--'.",
+      "C. RangeError: step drops below 0 causing memory overflow.",
+      "D. The condition step > 0 is invalid for const variables."
+    ],
+    "answer": "B",
+    "explanation": "At the end of the first iteration (step = 3), the loop step expression 'step--' executes, which is equivalent to 'step = step - 1'. Because 'step' was declared with 'const', reassigning it immediately throws 'TypeError: Assignment to constant variable'. To fix this, 'let' must be used.",
+    "hint": "Can a variable declared with const be reassigned in the loop update step?"
+  },
+  {
+    "id": 20,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "msq",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following data types in JavaScript are strictly classified as PRIMITIVE types? (Select all that apply)",
+    "options": [
+      "A. Symbol",
+      "B. BigInt",
+      "C. Array",
+      "D. Boolean",
+      "E. Function"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "Symbol, BigInt, and Boolean are 3 of the 7 primitive data types. Array and Function are specialized forms of the Reference type (Object).",
+    "hint": "Which types are not objects and are passed by value?"
+  },
+  {
+    "id": 21,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "How are Primitive types and Reference types stored and managed in JavaScript memory architecture?",
+    "code": null,
+    "options": [
+      "A. Primitives are stored in the Call Stack with fixed size; Reference types (Objects) are allocated on the Heap, and the Stack holds a memory address pointer to that Heap location.",
+      "B. Primitives are stored in the Heap, while Objects are stored directly in CPU registers.",
+      "C. Both Primitives and Objects are stored together in the Call Stack as dynamic contiguous arrays.",
+      "D. JavaScript has no Heap; everything is stored on disk cache."
+    ],
+    "answer": "A",
+    "explanation": "Primitives (Number, Boolean, etc.) have fixed byte sizes and are stored directly on the Stack. Objects and Arrays have dynamic, arbitrary sizes and are allocated on the memory Heap. The variable on the Stack stores only the memory address (reference) pointing to that Heap location.",
+    "hint": "Consider which memory structure handles fixed sizes (Stack) vs dynamic sizes (Heap)."
+  },
+  {
+    "id": 22,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed by the following code snippet?",
+    "code": "let numsA = [1, 2, 3];\nlet numsB = numsA;\nnumsB.push(4);\nnumsA = [100, 200];\nconsole.log(numsB);",
+    "options": [
+      "A. [100, 200]",
+      "B. [1, 2, 3, 4]",
+      "C. [100, 200, 4]",
+      "D. [1, 2, 3]"
+    ],
+    "answer": "B",
+    "explanation": "When numsB = numsA is executed, numsB copies the reference pointing to the array [1, 2, 3]. Mutating via numsB.push(4) alters that shared array to [1, 2, 3, 4]. When numsA is later reassigned to [100, 200], its pointer changes to a new array, but numsB still points to [1, 2, 3, 4].",
+    "hint": "Trace what happened to the memory reference of numsB when numsA was reassigned."
+  },
+  {
+    "id": 23,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "fill_blank",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "The primitive data type introduced in ECMAScript 2020 to represent arbitrary-precision integers safely exceeding Number.MAX_SAFE_INTEGER (2^53 - 1) is named ______.",
+    "code": "const largeId = 9007199254740995n;\nconsole.log(typeof largeId); // ______",
+    "options": [
+      "A. Int64",
+      "B. Long",
+      "C. BigInt",
+      "D. Decimal"
+    ],
+    "answer": "C",
+    "explanation": "BigInt is the built-in primitive type used for integers of arbitrary length beyond the safe integer limit of standard double-precision IEEE 754 Numbers. Literals are suffixed with 'n'.",
+    "hint": "It ends with 'Int' and starts with 'Big'."
+  },
+  {
+    "id": 24,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "true_false",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Statement: 'In JavaScript, the comparison expression NaN === NaN evaluates to true because both sides represent the identical special value Not-a-Number.'",
+    "options": [
+      "A. True",
+      "B. False"
+    ],
+    "answer": "B",
+    "explanation": "False. According to IEEE 754 floating-point specification and ECMAScript rules, NaN is never equal to any value, including another NaN (NaN === NaN is false). To check if a value is NaN, use Number.isNaN(val) or Object.is(NaN, NaN).",
+    "hint": "Is NaN equal to anything, even itself?"
+  },
+  {
+    "id": 25,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "assertion_reason",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Read the following statements:\nAssertion (A): Evaluating 'typeof null' in JavaScript produces the string 'object'.\nReason (R): In the first implementation of JavaScript, values were stored with a 32-bit type tag where '000' represented an object reference, and the null pointer was represented as NULL (0x00), inadvertently matching the object tag.",
+    "code": null,
+    "options": [
+      "A. Both A and R are true, and R is the correct explanation of A.",
+      "B. Both A and R are true, but R is NOT the correct explanation of A.",
+      "C. A is true, but R is false.",
+      "D. A is false, but R is true."
+    ],
+    "answer": "A",
+    "explanation": "Both Assertion and Reason are true, and R is the historical reason documented by Brendan Eich for why typeof null returns 'object'. Proposals to change typeof null to 'null' were rejected because it would break existing web pages.",
+    "hint": "Think about the historical 32-bit representation of pointers in the original 1995 engine."
+  },
+  {
+    "id": 26,
+    "topicId": "01",
+    "topic": "01.Variables_And_Data_Types",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the result of evaluating the following lines of code?",
+    "code": "console.log(typeof nonExistentVar);\nlet declaredVar;\nconsole.log(declaredVar);",
+    "options": [
+      "A. ReferenceError followed by undefined",
+      "B. \"undefined\" followed by undefined",
+      "C. undefined followed by null",
+      "D. \"object\" followed by undefined"
+    ],
+    "answer": "B",
+    "explanation": "The 'typeof' operator has a special safety mechanism: applying typeof to an undeclared identifier returns the string 'undefined' without throwing a ReferenceError. Meanwhile, declaredVar has been declared with 'let' but not assigned a value, so its actual value is undefined (printed as undefined).",
+    "hint": "typeof on undeclared variables is safe and returns a string."
+  },
+  {
+    "id": 27,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What is the key technical difference between the loose equality operator (==) and the strict equality operator (===)?",
+    "code": null,
+    "options": [
+      "A. Loose equality (==) performs implicit type coercion according to the Abstract Equality Comparison Algorithm before comparing, whereas strict equality (===) performs no type coercion and returns false if types differ.",
+      "B. Strict equality (===) performs deep recursive property comparison on objects, while loose equality (==) compares only memory references.",
+      "C. Loose equality (==) is always faster in execution than strict equality (===).",
+      "D. Strict equality (===) converts all strings to numbers automatically before checking."
+    ],
+    "answer": "A",
+    "explanation": "Loose equality (==) coerces operands to a common type (usually numbers) using the ECMAScript Abstract Equality Comparison Algorithm. Strict equality (===) compares without coercion: if types differ, it immediately evaluates to false. Neither operator does deep object comparison.",
+    "hint": "Does '===' perform implicit type coercion?"
+  },
+  {
+    "id": 28,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "How does the Nullish Coalescing Operator (??) differ fundamentally from the Logical OR operator (||) when providing fallback values?",
+    "code": null,
+    "options": [
+      "A. ?? provides a fallback if the left operand is ANY falsy value (false, 0, '', null, undefined, NaN).",
+      "B. ?? provides a fallback ONLY if the left operand is strictly null or undefined, preserving other valid falsy values like 0, false, and empty strings.",
+      "C. ?? can only be used with BigInt and Number operands.",
+      "D. || ignores null and undefined, while ?? throws a TypeError on null."
+    ],
+    "answer": "B",
+    "explanation": "The logical OR operator (||) returns the right-hand operand if the left operand is any falsy value (0, false, '', NaN, null, undefined). The nullish coalescing operator (??) only falls back if the left operand is null or undefined (nullish), making it ideal when 0 or '' are legitimate valid inputs.",
+    "hint": "What is the definition of a 'nullish' value in JavaScript?"
+  },
+  {
+    "id": 29,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "output",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Predict the three console outputs produced by the following expressions:",
+    "code": "console.log(1 + \"2\" + 3);\nconsole.log(8 - \"3\");\nconsole.log(\"4\" * \"3\");",
+    "options": [
+      "A. \"123\", 5, 12",
+      "B. 6, 5, 12",
+      "C. \"15\", \"5\", \"12\"",
+      "D. \"123\", NaN, 12"
+    ],
+    "answer": "A",
+    "explanation": "The '+' operator performs string concatenation if either operand is a string: 1 + '2' = '12', then '12' + 3 = '123'. In contrast, '-' and '*' have no string-specific behaviors, so the engine coerces strings to numbers: 8 - 3 = 5, and 4 * 3 = 12.",
+    "hint": "Only the + operator has a string concatenation overload in JavaScript."
+  },
+  {
+    "id": 30,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the console output when adding empty arrays and objects in expression context?",
+    "code": "console.log([] + []);\nconsole.log([] + {});",
+    "options": [
+      "A. \"\" and \"[object Object]\"",
+      "B. [] and {}",
+      "C. 0 and NaN",
+      "D. TypeError and TypeError"
+    ],
+    "answer": "A",
+    "explanation": "The binary '+' operator on objects calls ToPrimitive. For an array, [].toString() yields the empty string \"\". Thus [] + [] is \"\" + \"\" = \"\". For an object, {}.toString() yields \"[object Object]\". Thus \"\" + \"[object Object]\" = \"[object Object]\".",
+    "hint": "What do [].toString() and {}.toString() evaluate to?"
+  },
+  {
+    "id": 31,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed to the console?",
+    "code": "console.log(0 || \"Default A\");\nconsole.log(0 ?? \"Default B\");\nconsole.log(\"\" ?? \"Default C\");",
+    "options": [
+      "A. \"Default A\", \"Default B\", \"Default C\"",
+      "B. \"Default A\", 0, \"\"",
+      "C. 0, 0, \"\"",
+      "D. \"Default A\", 0, \"Default C\""
+    ],
+    "answer": "B",
+    "explanation": "1. 0 is falsy, so 0 || 'Default A' returns 'Default A'. 2. 0 is NOT nullish (not null/undefined), so 0 ?? 'Default B' returns 0. 3. \"\" (empty string) is NOT nullish, so \"\" ?? 'Default C' returns \"\".",
+    "hint": "Remember that 0 and \"\" are falsy, but they are NOT null or undefined."
+  },
+  {
+    "id": 32,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed by the following increment operations?",
+    "code": "let x = 5;\nlet y = x++ + ++x;\nconsole.log(x, y);",
+    "options": [
+      "A. 7, 12",
+      "B. 7, 13",
+      "C. 6, 12",
+      "D. 7, 14"
+    ],
+    "answer": "A",
+    "explanation": "In 'x++', the post-increment returns the initial value 5, and x becomes 6. Next, the pre-increment '++x' increments x from 6 to 7 and returns 7. Then y = 5 + 7 = 12. Final x = 7.",
+    "hint": "Post-increment returns the old value; pre-increment returns the new value."
+  },
+  {
+    "id": 33,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "debugging",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Identify the logical flaw in the following grade evaluation function:",
+    "code": "function getGrade(score) {\n  return score >= 90 ? \"A\" \n       : score >= 60 ? \"D\" \n       : score >= 80 ? \"B\" \n       : \"F\";\n}\nconsole.log(getGrade(85));",
+    "options": [
+      "A. SyntaxError: Nested ternary statements cannot span multiple lines.",
+      "B. Logic Bug: A score of 85 returns \"D\" because the condition (score >= 60) matches first, making the (score >= 80) branch unreachable.",
+      "C. The function throws a ReferenceError.",
+      "D. The function returns undefined."
+    ],
+    "answer": "B",
+    "explanation": "Ternary conditions evaluate sequentially from top to bottom. For score = 85, score >= 90 is false, but score >= 60 is true! It immediately returns 'D'. The condition score >= 80 is never evaluated because it was placed after the less restrictive >= 60 check.",
+    "hint": "Examine the order of boundary checks in the conditional chain."
+  },
+  {
+    "id": 34,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "msq",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following expressions evaluate to boolean true in JavaScript? (Select all that apply)",
+    "options": [
+      "A. [] == false",
+      "B. \"\" == false",
+      "C. null == undefined",
+      "D. null === undefined",
+      "E. NaN == NaN"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A is true: [] coerces to '' then 0, and false coerces to 0 (0 == 0). B is true: '' coerces to 0, false coerces to 0 (0 == 0). C is true: ECMAScript explicitly defines null == undefined as true. D is false: types differ. E is false: NaN is never equal to NaN.",
+    "hint": "Review the ECMAScript Abstract Equality Comparison rules."
+  },
+  {
+    "id": 35,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the associativity of the Assignment operator (=) and the Exponentiation operator (**) in JavaScript?",
+    "code": null,
+    "options": [
+      "A. Both = and ** are Right-to-Left associative.",
+      "B. Both = and ** are Left-to-Right associative.",
+      "C. Assignment (=) is Left-to-Right, but Exponentiation (**) is Right-to-Left.",
+      "D. All operators in JavaScript have Left-to-Right associativity."
+    ],
+    "answer": "A",
+    "explanation": "Both the assignment operator (=) and the exponentiation operator (**) have Right-to-Left associativity. For example, 2 ** 3 ** 2 evaluates as 2 ** (3 ** 2) = 2 ** 9 = 512 (not (2 ** 3) ** 2 = 64). Similarly, a = b = 5 evaluates as a = (b = 5).",
+    "hint": "How does 2 ** 3 ** 2 evaluate: from the left or from the right?"
+  },
+  {
+    "id": 36,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "fill_blank",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "To permanently delete a property from an object, the unary operator ______ is used.",
+    "code": "const server = { port: 8080, ssl: false };\n______ server.ssl;\nconsole.log(server.ssl); // undefined",
+    "options": [
+      "A. remove",
+      "B. drop",
+      "C. delete",
+      "D. unset"
+    ],
+    "answer": "C",
+    "explanation": "The 'delete' operator removes a property from an object. If the value of the property has no other active references, it becomes eligible for garbage collection.",
+    "hint": "A 6-letter JavaScript keyword starting with 'del'."
+  },
+  {
+    "id": 37,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "true_false",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Statement: 'The unary plus operator (+), when placed before a numeric string like +\"128\", converts the string operand to a number using the ToNumber abstract conversion.'",
+    "options": [
+      "A. True",
+      "B. False"
+    ],
+    "answer": "A",
+    "explanation": "True. The unary plus operator (+) is the fastest and most concise way to convert a string representation of a number into an actual Number primitive (+ '128' === 128). If it cannot be converted, it returns NaN.",
+    "hint": "Does unary plus coerce strings to numbers?"
+  },
+  {
+    "id": 38,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "assertion_reason",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Read the following statements:\nAssertion (A): The expression [] == ![] evaluates to true.\nReason (R): ![] evaluates to false because arrays are truthy objects; then [] == false coerces [] to the empty string \"\", which coerces to number 0, matching false coerced to number 0.",
+    "code": null,
+    "options": [
+      "A. Both A and R are true, and R is the correct explanation of A.",
+      "B. Both A and R are true, but R is NOT the correct explanation of A.",
+      "C. A is true, but R is false.",
+      "D. A is false, but R is true."
+    ],
+    "answer": "A",
+    "explanation": "Both Assertion and Reason are true. ![] evaluates first due to operator precedence to false. In [] == false, loose equality coerces both sides to number: [].toString() -> \"\" -> 0, and false -> 0. Since 0 == 0, it evaluates to true.",
+    "hint": "Trace the step-by-step type coercion of both sides."
+  },
+  {
+    "id": 39,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is logged to the console by the following expression?",
+    "code": "console.log(\"10\" - - \"5\");\nconsole.log(typeof (\"10\" - - \"5\"));",
+    "options": [
+      "A. \"10-5\" and \"string\"",
+      "B. 15 and \"number\"",
+      "C. 5 and \"number\"",
+      "D. NaN and \"number\""
+    ],
+    "answer": "B",
+    "explanation": "The second '-' acts as a unary negation operator on '5', converting it to the number -5. The first '-' is a binary subtraction operator: '10' - (-5). The subtraction coerces '10' to number 10, resulting in 10 - (-5) = 15. Its typeof is 'number'.",
+    "hint": "Distinguish between the binary subtraction operator and the unary negation operator."
+  },
+  {
+    "id": 40,
+    "topicId": "02",
+    "topic": "02.Operators",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What are the evaluated outputs of the following bitwise operations?",
+    "code": "console.log(5 & 3);\nconsole.log(5 | 2);\nconsole.log(~-1);",
+    "options": [
+      "A. 1, 7, 0",
+      "B. 1, 7, -2",
+      "C. 3, 5, 0",
+      "D. 0, 7, 1"
+    ],
+    "answer": "A",
+    "explanation": "In 32-bit binary: 5 is 101, 3 is 011. 1) 5 & 3 (AND) is 001 (1). 2) 5 is 101, 2 is 010. 5 | 2 (OR) is 111 (7). 3) Bitwise NOT (~x) calculates -(x + 1). For -1, ~(-1) = -(-1 + 1) = -0 = 0.",
+    "hint": "Remember the formula for bitwise NOT: ~n = -(n + 1)."
+  },
+  {
+    "id": 41,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Which of the following lists contains ALL 8 falsy values defined in modern ECMAScript?",
+    "code": null,
+    "options": [
+      "A. false, 0, -0, 0n, \"\", null, undefined, NaN",
+      "B. false, 0, \"false\", null, undefined, [], {}",
+      "C. false, -1, 0, \"0\", null, undefined, NaN",
+      "D. false, 0, 0n, \"\", null, undefined, [0]"
+    ],
+    "answer": "A",
+    "explanation": "Modern ECMAScript has exactly 8 falsy values: false, 0, -0, 0n (BigInt zero), \"\" (empty string), null, undefined, and NaN. Any other value (including \"false\", \"0\", [], and {}) is truthy in boolean context.",
+    "hint": "Check whether negative numbers or empty arrays are falsy."
+  },
+  {
+    "id": 42,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "In a JavaScript switch statement, how does the engine compare the switch expression with individual case clauses?",
+    "code": null,
+    "options": [
+      "A. Using loose equality (==) with implicit type coercion.",
+      "B. Using strict equality (===) without any type coercion.",
+      "C. Using Object.is() equality.",
+      "D. Using truthy/falsy evaluation."
+    ],
+    "answer": "B",
+    "explanation": "The switch statement evaluates an expression and matches it against case clauses using the Strict Equality Comparison algorithm (===). Therefore, case '5': will NOT match when the expression evaluates to number 5.",
+    "hint": "Does switch perform type coercion between strings and numbers?"
+  },
+  {
+    "id": 43,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed to the console due to switch fallthrough?",
+    "code": "let level = 2;\nlet message = \"\";\nswitch (level) {\n  case 1: message += \"Novice \";\n  case 2: message += \"Intermediate \";\n  case 3: message += \"Advanced \";\n    break;\n  case 4: message += \"Master \";\n  default: message += \"Unknown \";\n}\nconsole.log(message.trim());",
+    "options": [
+      "A. \"Intermediate\"",
+      "B. \"Intermediate Advanced\"",
+      "C. \"Intermediate Advanced Master Unknown\"",
+      "D. \"Novice Intermediate Advanced\""
+    ],
+    "answer": "B",
+    "explanation": "level matches case 2, so message gets 'Intermediate '. Because case 2 lacks a 'break' statement, execution falls through into case 3, appending 'Advanced '. Case 3 contains a 'break', which terminates the switch statement. Output is 'Intermediate Advanced'.",
+    "hint": "Without a 'break', execution continues down into subsequent cases regardless of their condition."
+  },
+  {
+    "id": 44,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is logged to the console by the following code snippet?",
+    "code": "if ([]) {\n  console.log(\"Section 1\");\n}\nif ([] == false) {\n  console.log(\"Section 2\");\n}",
+    "options": [
+      "A. Section 1 only",
+      "B. Section 2 only",
+      "C. Both Section 1 and Section 2",
+      "D. Neither section logs"
+    ],
+    "answer": "C",
+    "explanation": "In if ([]), the object is converted to boolean: all objects in JS are truthy, so Section 1 logs. In if ([] == false), the == comparison coerces [] to primitive [].toString() -> \"\" -> 0, and false to 0. Since 0 == 0 is true, Section 2 also logs!",
+    "hint": "Objects are truthy, but loose equality coerces objects to primitives."
+  },
+  {
+    "id": 45,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "debugging",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Identify the critical bug in the authentication check below:",
+    "code": "let userRole = \"guest\";\nif (userRole = \"admin\") {\n  console.log(\"Admin access granted!\");\n} else {\n  console.log(\"Access denied.\");\n}",
+    "options": [
+      "A. Strings cannot be compared inside an if statement.",
+      "B. It uses the single assignment operator (=) instead of comparison (===), assigning 'admin' to userRole which evaluates to truthy and always grants access.",
+      "C. SyntaxError: JavaScript forbids variable assignment inside conditions.",
+      "D. The code will print 'Access denied.'"
+    ],
+    "answer": "B",
+    "explanation": "The condition contains userRole = 'admin' (single equals), which is an assignment expression. The expression returns the assigned value ('admin'). Because non-empty strings are truthy, the if branch always runs, creating a major security flaw.",
+    "hint": "Check the number of equal signs in the if condition."
+  },
+  {
+    "id": 46,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "msq",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following values will cause the body of 'if (value) { ... }' to execute? (Select all that apply)",
+    "options": [
+      "A. \"0\" (string containing character zero)",
+      "B. \"false\" (string containing the word false)",
+      "C. [] (empty array)",
+      "D. 0 (number zero)",
+      "E. NaN"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A and B are non-empty strings, which are always truthy. C is an object/array, which is always truthy. D (0) and E (NaN) are falsy values and will not execute the if block.",
+    "hint": "Any non-empty string and any object instance in JavaScript is truthy."
+  },
+  {
+    "id": 47,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Why is deeply nested ternary chaining (e.g., a ? b : c ? d : e ? f : g) generally discouraged in backend production services?",
+    "code": null,
+    "options": [
+      "A. The V8 engine throws a CallStackOverflowError on more than two nested ternaries.",
+      "B. It severely degrades code readability, increases cyclomatic complexity, and makes testing and branch coverage harder to verify.",
+      "C. Nested ternaries cannot return strings.",
+      "D. The ternary operator is deprecated in modern ECMAScript standards."
+    ],
+    "answer": "B",
+    "explanation": "Deeply nested ternaries are difficult to parse mentally, make git diffs error-prone, obscure boundary testing, and elevate cyclomatic complexity. Clean code practices recommend guard clauses, if/else ladders, or lookup objects.",
+    "hint": "Consider software engineering readability, maintainability, and code review clarity."
+  },
+  {
+    "id": 48,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "fill_blank",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "In a switch statement, the clause executed when no matching case expression is found is declared using the keyword ______.",
+    "code": "switch (statusCode) {\n  case 200: handleSuccess(); break;\n  ______: handleUnknown(); break;\n}",
+    "options": [
+      "A. otherwise",
+      "B. fallback",
+      "C. default",
+      "D. else"
+    ],
+    "answer": "C",
+    "explanation": "The 'default' clause in a switch statement acts as the catch-all branch that executes if none of the preceding case values strictly match the switch expression.",
+    "hint": "A 7-letter JavaScript keyword used for default switch cases."
+  },
+  {
+    "id": 49,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "true_false",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Statement: 'In JavaScript, if you have a variable let code = \"10\", it will successfully trigger the case branch: case 10: because switch statements automatically coerce data types.'",
+    "options": [
+      "A. True",
+      "B. False"
+    ],
+    "answer": "B",
+    "explanation": "False. Switch case matching strictly uses the === operator. Because \"10\" === 10 is false (string vs number), the case will not match without manual parsing (like parseInt).",
+    "hint": "Does switch use loose == or strict === comparison?"
+  },
+  {
+    "id": 50,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "assertion_reason",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Read the following statements:\nAssertion (A): The block condition if ({}) evaluates to true and executes its body.\nReason (R): In JavaScript, all object instances—including plain empty objects and empty arrays—have a truthy boolean value in boolean contexts.",
+    "code": null,
+    "options": [
+      "A. Both A and R are true, and R is the correct explanation of A.",
+      "B. Both A and R are true, but R is NOT the correct explanation of A.",
+      "C. A is true, but R is false.",
+      "D. A is false, but R is true."
+    ],
+    "answer": "A",
+    "explanation": "Both Assertion and Reason are true. The ECMAScript ToBoolean abstract operation converts all Object types to boolean true unconditionally.",
+    "hint": "Are there any objects in JavaScript that evaluate to falsy?"
+  },
+  {
+    "id": 51,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the result of executing the nested ternary expression below?",
+    "code": "let itemsCount = 0;\nlet status = itemsCount ? \"In Stock\" : itemsCount === 0 ? \"Out of Stock\" : \"Invalid\";\nconsole.log(status);",
+    "options": [
+      "A. \"In Stock\"",
+      "B. \"Out of Stock\"",
+      "C. \"Invalid\"",
+      "D. undefined"
+    ],
+    "answer": "B",
+    "explanation": "itemsCount is 0, which is falsy. The first ternary condition (itemsCount ?) fails and branches to itemsCount === 0 ? \"Out of Stock\" : \"Invalid\". Because 0 === 0 is true, it evaluates to \"Out of Stock\".",
+    "hint": "Trace how 0 is evaluated in the initial boolean condition."
+  },
+  {
+    "id": 52,
+    "topicId": "03",
+    "topic": "03.Control_Structures_Conditionals",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is logged to the console by the logical short-circuit assignment below?",
+    "code": "let user = { authenticated: true, role: \"engineer\" };\nlet greeting = user.authenticated && user.role === \"engineer\" && \"Welcome Engineer!\";\nconsole.log(greeting);",
+    "options": [
+      "A. true",
+      "B. \"Welcome Engineer!\"",
+      "C. false",
+      "D. undefined"
+    ],
+    "answer": "B",
+    "explanation": "In JavaScript, the && operator evaluates operands from left to right: if all are truthy, it returns the value of the final operand. Here, true && true && 'Welcome Engineer!' evaluates directly to 'Welcome Engineer!'.",
+    "hint": "When all operands in an && chain are truthy, what does the expression return?"
+  },
+  {
+    "id": 53,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What is the unique operational guarantee provided by a 'do-while' loop compared to a standard 'while' loop?",
+    "code": null,
+    "options": [
+      "A. It optimizes CPU cycle consumption by running in parallel worker threads.",
+      "B. Its body is guaranteed to execute at least once, because the exit condition is evaluated at the end of the iteration.",
+      "C. It prevents infinite loops by auto-terminating after 1000 iterations.",
+      "D. It can only be used with arrays and strings."
+    ],
+    "answer": "B",
+    "explanation": "A 'while' loop checks the condition before entering the body (which may result in 0 executions). A 'do-while' loop executes the body first, then checks the condition at the bottom, guaranteeing at least one execution.",
+    "hint": "When does the do-while loop check its condition?"
+  },
+  {
+    "id": 54,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the critical semantic difference between 'for...in' and 'for...of' loops in JavaScript?",
+    "code": null,
+    "options": [
+      "A. 'for...in' iterates over enumerable property keys of an object (including prototype keys), whereas 'for...of' iterates over the values of an iterable collection (like Array, Map, Set).",
+      "B. 'for...in' can only iterate over arrays, while 'for...of' can only iterate over plain objects.",
+      "C. 'for...in' is asynchronous, whereas 'for...of' is synchronous.",
+      "D. 'for...of' was introduced in ES3, while 'for...in' was introduced in ES6."
+    ],
+    "answer": "A",
+    "explanation": "'for...in' iterates over property keys/names of an object (including inherited enumerable prototype properties) and is intended for object inspection. 'for...of' consumes values produced by an iterable's [Symbol.iterator] method (Arrays, Strings, Maps, Sets).",
+    "hint": "Does 'for...in' give keys or values? What does 'for...of' give?"
+  },
+  {
+    "id": 55,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed to the console when the following code completes?",
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 50);\n}",
+    "options": [
+      "A. 0, 1, 2",
+      "B. 3, 3, 3",
+      "C. undefined, undefined, undefined",
+      "D. 2, 2, 2"
+    ],
+    "answer": "B",
+    "explanation": "'var' is function-scoped (not block-scoped), so a single shared variable 'i' exists across all iterations. By the time the setTimeout timer callbacks run from the task queue, the loop has finished and 'i' has been incremented to 3. All 3 closures reference this same final value 3.",
+    "hint": "var does not have block scope, so all callbacks share the exact same variable binding."
+  },
+  {
+    "id": 56,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed when 'var' is replaced with 'let' in the loop?",
+    "code": "for (let j = 0; j < 3; j++) {\n  setTimeout(() => console.log(j), 50);\n}",
+    "options": [
+      "A. 3, 3, 3",
+      "B. 0, 1, 2",
+      "C. 0, 0, 0",
+      "D. ReferenceError: j is not defined"
+    ],
+    "answer": "B",
+    "explanation": "In ES6, 'let' in a for-loop header creates a fresh, separate lexical binding of 'j' for each iteration. Each setTimeout callback closes over its own specific iteration's snapshot of 'j', resulting in 0, 1, 2 being logged.",
+    "hint": "How does ES6 block scoping treat let in the head of a for loop?"
+  },
+  {
+    "id": 57,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed by the following loop containing break and continue?",
+    "code": "let sum = 0;\nfor (let k = 0; k < 6; k++) {\n  if (k === 2) continue;\n  if (k === 4) break;\n  sum += k;\n}\nconsole.log(sum);",
+    "options": [
+      "A. 4",
+      "B. 10",
+      "C. 15",
+      "D. 6"
+    ],
+    "answer": "A",
+    "explanation": "Trace: k=0: sum=0; k=1: sum=1; k=2: continue (skips to k=3); k=3: sum = 1 + 3 = 4; k=4: break (immediately exits loop). The final logged sum is 4.",
+    "hint": "Trace each iteration: k=2 is skipped, k=4 terminates the loop."
+  },
+  {
+    "id": 58,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "debugging",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Identify the bug causing an infinite loop in the snippet below:",
+    "code": "let count = 5;\nwhile (count > 0) {\n  if (count === 3) {\n    continue;\n  }\n  console.log(count);\n  count--;\n}",
+    "options": [
+      "A. while loops cannot use the greater-than operator.",
+      "B. When count reaches 3, 'continue' skips the rest of the body (including count--), so count remains 3 indefinitely.",
+      "C. console.log throws an error when count is odd.",
+      "D. count-- results in an underflow error."
+    ],
+    "answer": "B",
+    "explanation": "In while loops, the decrement step (count--) is inside the body. When count === 3, continue skips the rest of the body, leaping back to the condition without decrementing count. Since count remains 3 forever, it creates an infinite loop.",
+    "hint": "What lines of code are bypassed when 'continue' executes?"
+  },
+  {
+    "id": 59,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the output of the following labeled loop statement?",
+    "code": "let res = \"\";\nmatrixLoop: for (let r = 1; r <= 3; r++) {\n  for (let c = 1; c <= 3; c++) {\n    if (r === 2 && c === 2) {\n      break matrixLoop;\n    }\n    res += `${r}${c} `;\n  }\n}\nconsole.log(res.trim());",
+    "options": [
+      "A. \"11 12 13 21\"",
+      "B. \"11 12 13 21 23 31 32 33\"",
+      "C. \"11 12 13\"",
+      "D. \"21 22 23\""
+    ],
+    "answer": "A",
+    "explanation": "The loop runs for r=1 (c=1,2,3 -> '11 12 13 '). Then r=2 (c=1 -> '21 '). When r=2 and c=2, 'break matrixLoop' terminates the labeled outer loop entirely, exiting both loops. The resulting string is '11 12 13 21'.",
+    "hint": "A labeled break breaks out of the labeled outer loop, not just the inner loop."
+  },
+  {
+    "id": 60,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "msq",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following built-in JavaScript data structures can be directly iterated using a 'for...of' loop without error? (Select all that apply)",
+    "options": [
+      "A. Array ([1, 2, 3])",
+      "B. String (\"backend\")",
+      "C. Set (new Set([10, 20]))",
+      "D. Plain Object ({ id: 1, name: \"API\" })",
+      "E. Map (new Map([[\"k\", \"v\"]]))"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "Array, String, Set, and Map implement the Iterable Protocol (they possess a [Symbol.iterator] method). Plain objects ({}) do NOT implement [Symbol.iterator] by default; attempting 'for (const x of {})' throws 'TypeError: {} is not iterable'.",
+    "hint": "Which structures implement Symbol.iterator by default?"
+  },
+  {
+    "id": 61,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "fill_blank",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "In JavaScript loop control flow, the keyword used to skip the remaining statements of the current iteration and jump directly to the next iteration is ______.",
+    "code": "for (let i = 0; i < 5; i++) {\n  if (i % 2 === 0) ______;\n  console.log(i);\n}",
+    "options": [
+      "A. pass",
+      "B. skip",
+      "C. continue",
+      "D. next"
+    ],
+    "answer": "C",
+    "explanation": "The 'continue' statement terminates execution of the statements in the current iteration of the current loop, and continues execution of the loop with the next iteration.",
+    "hint": "An 8-letter keyword starting with 'con'."
+  },
+  {
+    "id": 62,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "true_false",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Statement: 'A for...in loop is the standard and recommended way to iterate over Array elements in JavaScript because it guarantees strict numerical index order.'",
+    "options": [
+      "A. True",
+      "B. False"
+    ],
+    "answer": "B",
+    "explanation": "False. 'for...in' iterates over all enumerable properties (including non-index properties and prototype chain additions) in an arbitrary order. For arrays, 'for...of', indexed 'for', or Array methods (forEach/map) should be used.",
+    "hint": "Is for...in guaranteed to preserve numerical array order?"
+  },
+  {
+    "id": 63,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "assertion_reason",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Read the following statements:\nAssertion (A): Declaring a loop counter with 'let i = 0' in a for-loop header gives every iteration its own distinct binding of 'i'.\nReason (R): Section 13.7.4.7 of the ECMAScript specification explicitly specifies that each iteration creates a fresh declarative environment record, copying the previous value of 'i'.",
+    "code": null,
+    "options": [
+      "A. Both A and R are true, and R is the correct explanation of A.",
+      "B. Both A and R are true, but R is NOT the correct explanation of A.",
+      "C. A is true, but R is false.",
+      "D. A is false, but R is true."
+    ],
+    "answer": "A",
+    "explanation": "Both Assertion and Reason are true. The ECMAScript specification defines this special loop scoping behavior specifically to solve the classic closure-in-a-loop issue without requiring an IIFE wrapper.",
+    "hint": "Think of why closures inside a let-loop capture the per-iteration value."
+  },
+  {
+    "id": 64,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "output",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What will be printed to the console?",
+    "code": "let val = 100;\ndo {\n  val += 25;\n} while (val < 50);\nconsole.log(val);",
+    "options": [
+      "A. 100",
+      "B. 125",
+      "C. 50",
+      "D. Infinite loop"
+    ],
+    "answer": "B",
+    "explanation": "In a do-while loop, the loop body runs before checking the condition. 'val' is incremented from 100 to 125. Then the condition (125 < 50) is tested; it is false, so the loop terminates immediately. 125 is printed.",
+    "hint": "The body runs once before the condition is ever checked."
+  },
+  {
+    "id": 65,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is the final value of total printed by this loop?",
+    "code": "let total = 0;\nfor (let m = 0; m < 5; m++) {\n  m++;\n  total += m;\n}\nconsole.log(total);",
+    "options": [
+      "A. 6",
+      "B. 9",
+      "C. 15",
+      "D. 4"
+    ],
+    "answer": "B",
+    "explanation": "Trace: Iteration 1: starts m=0, m++ -> m=1, total += 1 (total=1). Header increments m++ -> m=2. Iteration 2: m=2 (<5), m++ -> m=3, total += 3 (total=4). Header increments m++ -> m=4. Iteration 3: m=4 (<5), m++ -> m=5, total += 5 (total=9). Header increments m++ -> m=6. m=6 is not < 5, loop exits. Final total = 9.",
+    "hint": "Notice that 'm' is incremented both inside the body and in the loop header."
+  },
+  {
+    "id": 66,
+    "topicId": "04",
+    "topic": "04.Control_Structures_Loop",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Why was caching the length of an array (e.g. for (let i = 0, len = arr.length; i < len; i++)) historically a widely practiced optimization in older JavaScript engines?",
+    "code": null,
+    "options": [
+      "A. It prevented other functions from modifying the array during iteration.",
+      "B. It avoided performing a dynamic property lookup (.length) on the array object on every single iteration.",
+      "C. It converted the JavaScript array into a raw C++ pointer.",
+      "D. It was required by ECMAScript 3 syntax rules."
+    ],
+    "answer": "B",
+    "explanation": "In older engines, evaluating 'i < arr.length' triggered an object property lookup on 'arr' during every condition check. Caching 'len' stored the value in a local variable on the stack, reducing overhead. Modern engines optimize this via loop invariant code motion.",
+    "hint": "What does accessing a property on an object require the engine to do?"
+  },
+  {
+    "id": 67,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What is the primary difference between a Function Declaration and a Function Expression in JavaScript regarding hoisting?",
+    "code": null,
+    "options": [
+      "A. Function Declarations are hoisted along with their full function body, allowing them to be invoked before their line of definition; Function Expressions assigned to variables are only hoisted according to variable rules (e.g. undefined for var, TDZ for let/const).",
+      "B. Function Expressions are hoisted completely, but Function Declarations are not hoisted at all.",
+      "C. Function Expressions can only be used as asynchronous callback handlers.",
+      "D. Function Declarations cannot accept arguments or return values."
+    ],
+    "answer": "A",
+    "explanation": "Function declarations (function foo() {}) are fully hoisted with their implementations during the execution context creation phase. Function expressions (var foo = function() {}) hoist only the variable identifier; the function assignment happens during the execution phase.",
+    "hint": "Can you call a function declaration before writing it in the source code?"
+  },
+  {
+    "id": 68,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is a 'Closure' in JavaScript?",
+    "code": null,
+    "options": [
+      "A. A syntax mechanism used to close open database and socket connections when a script terminates.",
+      "B. A function bundled together with references to its surrounding lexical environment, allowing an inner function to access an outer function's scope even after the outer function has returned and popped off the call stack.",
+      "C. An anonymous function that does not return any value to the caller.",
+      "D. An error that occurs when a function has mismatched opening and closing curly braces."
+    ],
+    "answer": "B",
+    "explanation": "A closure is created when an inner function is defined inside an outer function, maintaining a reference to the outer function's Lexical Environment. Even when the outer function completes execution and leaves the call stack, the inner function retains access to the outer variables.",
+    "hint": "Think of state retention across function invocations."
+  },
+  {
+    "id": 69,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "How does the JavaScript Engine resolve variable names through the 'Scope Chain'?",
+    "code": null,
+    "options": [
+      "A. It searches the Global scope first, and if found, ignores any local variables with the same name.",
+      "B. It begins searching in the current local Execution Context's Environment Record; if not found, it traverses upward via the outer lexical environment reference until the Global scope is reached; if still not found, it throws a ReferenceError in strict mode.",
+      "C. It randomly inspects all memory addresses currently allocated in the Heap.",
+      "D. It only checks variables declared in the exact same source file."
+    ],
+    "answer": "B",
+    "explanation": "Scope resolution is lexical (determined at author-time). The engine starts at the current local scope and moves outward step-by-step through parent scopes via the outer environment reference. If the identifier is nowhere in the scope chain up to the Global Environment, a ReferenceError is thrown.",
+    "hint": "Does scope lookup go from inside-out, or outside-in?"
+  },
+  {
+    "id": 70,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "What was the primary historical purpose of an IIFE (Immediately Invoked Function Expression) before ES6 introduced 'let', 'const', and ES Modules?",
+    "code": null,
+    "options": [
+      "A. To convert synchronous JavaScript into multithreaded worker threads.",
+      "B. To create an isolated function scope that prevented variables from leaking into and polluting the global namespace.",
+      "C. To accelerate JSON serialization.",
+      "D. To bypass browser cross-origin resource sharing (CORS) security restrictions."
+    ],
+    "answer": "B",
+    "explanation": "Before ES6, JavaScript only had function scope and global scope (no block scope). Variables declared with 'var' would pollute the global window object. IIFEs (e.g. (function() { ... })()) created a private lexical scope for libraries and modules to prevent variable collisions.",
+    "hint": "Why did libraries like jQuery wrap their entire code in a function that runs immediately?"
+  },
+  {
+    "id": 71,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What happens when executing the following snippet?",
+    "code": "greet();\nsayFarewell();\n\nfunction greet() {\n  console.log(\"Greetings!\");\n}\n\nvar sayFarewell = function() {\n  console.log(\"Farewell!\");\n};",
+    "options": [
+      "A. Logs \"Greetings!\" followed by \"Farewell!\"",
+      "B. Logs \"Greetings!\" followed by TypeError: sayFarewell is not a function",
+      "C. ReferenceError: greet is not defined",
+      "D. undefined followed by undefined"
+    ],
+    "answer": "B",
+    "explanation": "The function declaration greet() is fully hoisted, so greet() successfully runs and logs 'Greetings!'. However, sayFarewell is declared with 'var', so its identifier is hoisted and initialized to undefined. Calling sayFarewell() tries to execute undefined(), throwing 'TypeError: sayFarewell is not a function'.",
+    "hint": "What is the value of sayFarewell at the moment it is invoked?"
+  },
+  {
+    "id": 72,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed to the console by these closure instances?",
+    "code": "function counterFactory() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}\nconst c1 = counterFactory();\nconst c2 = counterFactory();\nc1();\nc1();\nconsole.log(c1(), c2());",
+    "options": [
+      "A. 3 1",
+      "B. 3 3",
+      "C. 2 1",
+      "D. 1 1"
+    ],
+    "answer": "A",
+    "explanation": "Each invocation of counterFactory() creates a new, independent Lexical Environment on the heap. c1 and c2 hold separate 'count' variables. c1 is called three times (count becomes 1, 2, then 3). c2 is called once (count becomes 1). The output is '3 1'.",
+    "hint": "Do multiple instances of a closure share the same state or get independent environments?"
+  },
+  {
+    "id": 73,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What will be printed by the parameter shadowing snippet below?",
+    "code": "let globalRate = 100;\nfunction updateRate(globalRate) {\n  globalRate = globalRate + 50;\n  console.log(\"Local:\", globalRate);\n}\nupdateRate(20);\nconsole.log(\"Global:\", globalRate);",
+    "options": [
+      "A. Local: 70, Global: 70",
+      "B. Local: 70, Global: 100",
+      "C. Local: 150, Global: 150",
+      "D. Local: 20, Global: 100"
+    ],
+    "answer": "B",
+    "explanation": "The parameter 'globalRate' in updateRate shadows the outer variable 'globalRate'. Inside the function, the parameter starts at 20, is modified to 70, and logs 'Local: 70'. The outer 'globalRate' variable in the parent scope is untouched and remains 100.",
+    "hint": "When a parameter has the same name as an outer variable, which one is modified inside the function?"
+  },
+  {
+    "id": 74,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Predict the console outputs for the two function invocations:",
+    "code": "function computeCost(base = 10, tax = base * 0.2) {\n  return base + tax;\n}\nconsole.log(computeCost(50));\nconsole.log(computeCost(undefined, 20));",
+    "options": [
+      "A. 60 and 30",
+      "B. 60 and NaN",
+      "C. 50 and 30",
+      "D. 12 and 20"
+    ],
+    "answer": "A",
+    "explanation": "1. In computeCost(50), base is 50. tax defaults to 50 * 0.2 = 10. Return is 50 + 10 = 60. 2. In computeCost(undefined, 20), passing undefined triggers the default value for base (base = 10). tax is explicitly passed as 20. Return is 10 + 20 = 30.",
+    "hint": "Passing undefined to a parameter triggers its default argument."
+  },
+  {
+    "id": 75,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "output",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What is logged to the console regarding rest parameters and arguments length?",
+    "code": "function analyze(head, ...tail) {\n  console.log(tail.length, arguments.length);\n}\nanalyze(\"GET\", \"/api\", \"v1\", \"users\");",
+    "options": [
+      "A. 3 4",
+      "B. 4 4",
+      "C. 3 3",
+      "D. 4 3"
+    ],
+    "answer": "A",
+    "explanation": "The Rest parameter '...tail' gathers all arguments remaining after named parameters into a true Array: tail = ['/api', 'v1', 'users'], so tail.length is 3. The 'arguments' object contains ALL passed arguments regardless of parameters: length is 4.",
+    "hint": "Does the rest parameter include the first named parameter 'head'?"
+  },
+  {
+    "id": 76,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "debugging",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "What error occurs when evaluating the default parameter expression below?",
+    "code": "function buildQuery(limit = offset, offset = 10) {\n  return { limit, offset };\n}\nbuildQuery();",
+    "options": [
+      "A. SyntaxError: Default parameters cannot reference other parameters.",
+      "B. ReferenceError: Cannot access 'offset' before initialization.",
+      "C. It returns { limit: undefined, offset: 10 }.",
+      "D. It returns { limit: 10, offset: 10 }."
+    ],
+    "answer": "B",
+    "explanation": "Default parameters are evaluated from left to right in an intermediate parameter scope. When evaluating limit = offset, parameter 'offset' has not yet been initialized and is in the Temporal Dead Zone (TDZ). This throws 'ReferenceError: Cannot access 'offset' before initialization'.",
+    "hint": "Default parameters evaluate left-to-right; can an earlier parameter access a later one?"
+  },
+  {
+    "id": 77,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "msq",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Which of the following statements regarding JavaScript functions and closures are TRUE? (Select all that apply)",
+    "options": [
+      "A. Functions in JavaScript are first-class citizens, meaning they can be assigned to variables, passed as arguments, and returned from other functions.",
+      "B. A closure captures a live reference to outer variables, not a static copy at the time of definition.",
+      "C. Arrow functions have their own local 'arguments' object and their own binding of 'this'.",
+      "D. Closures can cause memory leaks if inner functions retain references to large unused objects in the outer lexical scope."
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "A is true (first-class functions). B is true (closures hold live references, mutations to outer variables are seen). C is false (arrow functions lack their own 'arguments' and 'this'; they inherit them lexically). D is true (retaining references prevents garbage collection).",
+    "hint": "Do arrow functions have their own 'arguments' object?"
+  },
+  {
+    "id": 78,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "fill_blank",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Inside standard non-arrow functions, all arguments passed to the function are accessible through an array-like built-in object named ______.",
+    "code": "function sumAll() {\n  let total = 0;\n  for (let i = 0; i < ______.length; i++) {\n    total += ______[i];\n  }\n  return total;\n}",
+    "options": [
+      "A. params",
+      "B. args",
+      "C. arguments",
+      "D. inputs"
+    ],
+    "answer": "C",
+    "explanation": "The 'arguments' object is an array-like object (having a length property and numeric index access, but not array methods like map/filter) available inside all non-arrow functions.",
+    "hint": "The built-in 9-letter keyword starting with 'arg'."
+  },
+  {
+    "id": 79,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "true_false",
+    "difficulty": "Basic",
+    "marks": 0.5,
+    "question": "Statement: 'In JavaScript backend programming, a pure function is a function that produces no observable side effects (no mutation of external state, no I/O) and returns the identical output whenever given the identical input arguments.'",
+    "options": [
+      "A. True",
+      "B. False"
+    ],
+    "answer": "A",
+    "explanation": "True. Pure functions follow referential transparency: given identical inputs, they always return the identical result without altering external state, global variables, or triggering external I/O operations.",
+    "hint": "What are the two defining properties of a pure function?"
+  },
+  {
+    "id": 80,
+    "topicId": "05",
+    "topic": "05.functions_and_scope",
+    "type": "assertion_reason",
+    "difficulty": "Medium",
+    "marks": 0.5,
+    "question": "Read the following statements:\nAssertion (A): Invoking a variable containing a function expression before its assignment throws a TypeError if declared with 'var', but a ReferenceError if declared with 'let'.\nReason (R): 'var' declarations are hoisted and initialized to undefined (so attempting undefined() throws TypeError), whereas 'let' declarations are hoisted without initialization into the Temporal Dead Zone (throwing ReferenceError upon access).",
+    "code": null,
+    "options": [
+      "A. Both A and R are true, and R is the correct explanation of A.",
+      "B. Both A and R are true, but R is NOT the correct explanation of A.",
+      "C. A is true, but R is false.",
+      "D. A is false, but R is true."
+    ],
+    "answer": "A",
+    "explanation": "Both Assertion and Reason are true. Calling undefined() produces 'TypeError: x is not a function', while accessing a let binding in the TDZ produces 'ReferenceError: Cannot access x before initialization'.",
+    "hint": "Consider the initialization difference between var and let during the creation phase."
+  },
+  {
+    "id": 81,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "Explain the multi-tiered execution pipeline of Google's V8 JavaScript Engine. What are the specific roles of Ignition, Sparkplug, and TurboFan, and under what conditions does TurboFan trigger a 'Deoptimization' (bailout)?",
+    "code": null,
+    "options": [
+      "A. Ignition generates CSSOM, Sparkplug compiles HTML to DOM, and TurboFan executes Web Workers. Deoptimization occurs during network latency.",
+      "B. Ignition parses the AST into compact bytecode; Sparkplug is a fast baseline non-optimizing compiler; TurboFan takes hot functions with Monomorphic Type Feedback and compiles them into highly optimized machine code. Deoptimization occurs when speculative type assumptions are violated (e.g. passing a string to a function optimized for integers).",
+      "C. V8 compiles all JavaScript directly into WebAssembly, and deoptimization occurs when garbage collection fails.",
+      "D. Ignition only runs in Chrome browser tabs, while TurboFan runs exclusively inside Node.js server clusters."
+    ],
+    "answer": "B",
+    "explanation": "Google's V8 utilizes a multi-tiered pipeline: Ignition interprets the Abstract Syntax Tree (AST) into bytecode for fast initial startup. Sparkplug provides a fast baseline compilation directly from bytecode. TurboFan monitors 'hot' code and optimizes it into native machine code using speculative optimizations based on type feedback (shapes/hidden classes). If runtime execution encounters a polymorphic type or violates assumptions, TurboFan bails out (deoptimizes) back to Ignition bytecode.",
+    "hint": "Focus on the transition between interpreter bytecode, type feedback vectors, and speculative JIT machine code."
+  },
+  {
+    "id": 82,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "How does the JavaScript Event Loop coordinate execution between the Synchronous Call Stack, the Microtask Queue, and the Macrotask (Task) Queue?",
+    "code": null,
+    "options": [
+      "A. The Event Loop prioritizes Macrotasks (e.g., setTimeout) and only processes Microtasks when no timers are pending.",
+      "B. Synchronous code executes first on the Call Stack until empty; then the Event Loop completely drains the ENTIRE Microtask Queue (including Promises, queueMicrotask, process.nextTick in Node) before executing the next single Macrotask from the Task Queue.",
+      "C. Microtasks and Macrotasks run concurrently in alternating round-robin order across two CPU cores.",
+      "D. The Event Loop checks the Macrotask queue every 16ms and drops pending microtasks if the frame drops below 60 FPS."
+    ],
+    "answer": "B",
+    "explanation": "Microtasks have strict priority over macrotasks. Once synchronous code completes and the Call Stack is empty, the Event Loop checks the Microtask Queue and executes all queued microtasks (including any new microtasks enqueued during that processing) until the microtask queue is completely exhausted. Only then does it pick and execute the next single macrotask.",
+    "hint": "Microtasks are always completely drained before the next macrotask is dispatched."
+  },
+  {
+    "id": 83,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 00.Introduction_to_JavaScript",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "What is Ecma International's TC39, and what are the 5 official stages in the ECMAScript Proposal Lifecycle for introducing new language specifications?",
+    "code": null,
+    "options": [
+      "A. Stage 1: Idea, Stage 2: Alpha, Stage 3: Beta, Stage 4: Release Candidate, Stage 5: General Availability.",
+      "B. Stage 0: Strawman (informal ideas), Stage 1: Proposal (formal problem space & high-level API), Stage 2: Draft (initial formal spec syntax), Stage 3: Candidate (complete spec text & 2+ implementations), Stage 4: Finished (passed testing, scheduled for standard release).",
+      "C. Stage 1: GitHub Issue, Stage 2: Pull Request, Stage 3: Code Review, Stage 4: npm Publish, Stage 5: Deprecation.",
+      "D. TC39 is an automated testing pipeline in Chromium that compiles ECMAScript without committee meetings."
+    ],
+    "answer": "B",
+    "explanation": "TC39 (Technical Committee 39) governs ECMAScript evolution. The proposal process consists of: Stage 0 (Strawman - idea submission), Stage 1 (Proposal - establishing problem and design), Stage 2 (Draft - precise spec wording), Stage 3 (Candidate - complete specification requiring two independent compliant shipping implementations), and Stage 4 (Finished - ready to merge into the next annual ECMA-262 release).",
+    "hint": "The stages range from Stage 0 Strawman to Stage 4 Finished."
+  },
+  {
+    "id": 84,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 04.Control_Structures_Loop",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "Explain the technical mechanics of the Iterable and Iterator Protocols defined in ECMAScript 2015. How does a 'for...of' loop consume an iterable under the hood?",
+    "code": null,
+    "options": [
+      "A. The Iterable protocol requires a property at [Symbol.iterator] containing a factory method that returns an Iterator object. The Iterator protocol requires an object with a .next() method returning { value: any, done: boolean }. The 'for...of' loop calls [Symbol.iterator](), repeatedly invokes .next(), and extracts 'value' until 'done' is true.",
+      "B. The iterable protocol requires an array with numeric indices and a length property. 'for...of' converts it to a C++ linked list.",
+      "C. 'for...of' utilizes Object.keys() to convert any object into an array and loops using an internal while loop.",
+      "D. An iterable must inherit from the global Iterator class introduced in ECMAScript 3."
+    ],
+    "answer": "A",
+    "explanation": "In ES6, an Iterable is any object having a method keyed by Symbol.iterator. Invoking this method yields an Iterator—an object possessing a .next() method. Each call to .next() returns an iteration result object: { value: <currentValue>, done: <boolean> }. 'for...of' handles this protocol desugaring automatically.",
+    "hint": "What symbol key must an iterable define, and what does its next() method return?"
+  },
+  {
+    "id": 85,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 04.Control_Structures_Loop",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "In modern JavaScript engines (such as V8), what are 'Hidden Classes' (Shapes/Maps), and how does iterating through diverse objects or adding properties dynamically inside a loop impact Inline Caches (IC)?",
+    "code": null,
+    "options": [
+      "A. Hidden classes are CSS styling rules attached to DOM nodes during loop execution.",
+      "B. Hidden classes are internal engine structures that map object property names to fixed memory offsets. Adding properties dynamically in different orders creates distinct shapes, causing Inline Caches (ICs) to transition from monomorphic (fastest) to polymorphic and megamorphic (slowest), degrading loop performance.",
+      "C. Hidden classes are security wrappers that encrypt memory during loop iteration.",
+      "D. Hidden classes prevent garbage collection from reclaiming array elements."
+    ],
+    "answer": "B",
+    "explanation": "Because JavaScript is dynamic, engines synthesize internal Hidden Classes (Shapes/Maps) to know property memory offsets. An Inline Cache (IC) remembers property offsets at a call site. If an operation encounters only one shape, it is 'monomorphic' (near C++ speed). Changing property addition orders inside loops forces the IC into polymorphic (2-4 shapes) or megamorphic (>4 shapes) states, falling back to slow dictionary lookups.",
+    "hint": "Think about monomorphic vs polymorphic inline caches and memory offsets."
+  },
+  {
+    "id": 86,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 04.Control_Structures_Loop",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "How do Labeled Statements (e.g., label: for (...)) modify loop control flow in JavaScript, and why are they generally discouraged in modern production backend architectures?",
+    "code": null,
+    "options": [
+      "A. Labeled statements cause memory leaks because the engine cannot free the label string.",
+      "B. Labeled statements provide a target identifier allowing 'break' or 'continue' to escape deeply nested loops. They are discouraged because they introduce arbitrary non-local jumps resembling 'goto', which obscure control flow, increase cyclomatic complexity, and make code difficult to test compared to breaking loops into decomposed helper functions with early returns.",
+      "C. Labeled statements are only supported in web browsers and throw a SyntaxError in Node.js.",
+      "D. Labeled statements automatically disable TurboFan optimizations permanently for the entire file."
+    ],
+    "answer": "B",
+    "explanation": "Labeled statements allow jumping out of multi-level nested loops. While syntactically valid in JS, they introduce arbitrary control-flow jumps resembling 'goto', which complicates the control-flow graph, impairs cyclomatic complexity, and usually signals that the nested loop should be refactored into smaller, testable functions with early returns.",
+    "hint": "Why were 'goto' statements historically discouraged in structured programming?"
+  },
+  {
+    "id": 87,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "According to the ECMAScript formal specification, what components constitute an Execution Context, and what is the technical distinction between 'LexicalEnvironment' and 'VariableEnvironment'?",
+    "code": null,
+    "options": [
+      "A. An Execution Context consists of CPU registers and stack frames. Both environments are identical.",
+      "B. An Execution Context consists of a LexicalEnvironment, a VariableEnvironment, and a ThisBinding. VariableEnvironment holds bindings created by 'var' declarations, while LexicalEnvironment holds block-scoped bindings ('let', 'const', 'class'). Both maintain an Environment Record and a pointer to the outer environment.",
+      "C. VariableEnvironment is only used in the browser DOM, while LexicalEnvironment is only used in Node.js.",
+      "D. LexicalEnvironment only stores function names, while VariableEnvironment only stores numbers."
+    ],
+    "answer": "B",
+    "explanation": "In ECMAScript, an Execution Context contains: 1) LexicalEnvironment (which manages let, const, class, and block scope declarations), 2) VariableEnvironment (which retains var declarations and function declarations within function bodies), and 3) ThisBinding. Both contain an Environment Record and an [[OuterEnv]] reference forming the Scope Chain.",
+    "hint": "Which environment handles 'var' versus block-scoped 'let'/'const'?"
+  },
+  {
+    "id": 88,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "How can JavaScript Closures inadvertently cause Memory Leaks in long-running Node.js backend processes, and how does V8's Garbage Collector evaluate memory reachability?",
+    "code": null,
+    "options": [
+      "A. V8 uses reference counting which crashes on circular references between functions.",
+      "B. V8 uses Mark-and-Sweep tracing from GC Roots. If an inner closure outlives its enclosing function (e.g. registered as an event listener or interval) and shares an outer Lexical Environment holding large objects or buffers, those large structures remain strongly reachable from roots and cannot be reclaimed by garbage collection.",
+      "C. Closures allocate memory directly in kernel space bypassing V8 heap management entirely.",
+      "D. Memory leaks cannot happen in Node.js because the V8 engine automatically deletes all closures every 60 seconds."
+    ],
+    "answer": "B",
+    "explanation": "V8 evaluates reachability using generational garbage collection (Scavenger for new space, Mark-Sweep-Compact for old space) tracing from GC Roots (global object, active call stack). Because closures hold references to their parent Lexical Environment, if a closure is kept alive (e.g. in a global event bus or cache), all variables in that shared lexical environment remain reachable, preventing reclamation of unneeded large buffers or data arrays.",
+    "hint": "Consider what happens when a long-lived callback retains an outer scope containing heavy data."
+  },
+  {
+    "id": 89,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "In backend JavaScript architecture, what is 'Referential Transparency' and why are Pure Functions essential for reliable unit testing, caching (memoization), and horizontal scalability?",
+    "code": null,
+    "options": [
+      "A. Referential transparency means all function code must be converted to transparent JSON strings.",
+      "B. An expression is referentially transparent if it can be replaced with its evaluated return value without altering program behavior. Pure functions achieve this by having zero side effects and deterministic outputs for identical inputs, enabling safe memoization, zero-mock unit testing, and race-condition-free concurrency.",
+      "C. Referential transparency requires functions to only accept arrays as input parameters.",
+      "D. Pure functions run in parallel C++ threads without using the JavaScript event loop."
+    ],
+    "answer": "B",
+    "explanation": "Referential transparency is a foundational functional programming principle: an expression f(x) can be swapped with its evaluated value without changing system state. Pure functions guarantee referential transparency because they produce deterministic results with no side effects (no mutation of database, global state, or I/O), allowing easy caching (memoization) and robust unit testing.",
+    "hint": "Can a function call be safely replaced with its precomputed return value?"
+  },
+  {
+    "id": 90,
+    "topicId": "bonus",
+    "topic": "⭐ Bonus: 05.functions_and_scope",
+    "type": "theory",
+    "difficulty": "Advanced",
+    "marks": 1.0,
+    "question": "What is Function Currying, how do JavaScript Closures make it possible, and what is its mathematical distinction from Partial Application?",
+    "code": null,
+    "options": [
+      "A. Currying is sorting function parameters alphabetically before calling them.",
+      "B. Currying transforms an N-ary function f(a, b, c) into a chain of N unary functions f(a)(b)(c), utilizing closures to preserve each argument in lexical scope across sequential invocations. Partial application fixes a subset of arguments producing a function of smaller arity (not necessarily unary).",
+      "C. Currying requires using the 'async/await' keyword combination.",
+      "D. Currying is only supported in TypeScript and cannot be written in vanilla JavaScript."
+    ],
+    "answer": "B",
+    "explanation": "Named after mathematician Haskell Curry, currying decomposes a multi-argument function into a series of single-argument (unary) functions: f(a, b, c) becomes f(a)(b)(c). Closures capture each supplied argument in parent lexical scopes. Partial application fixes some arguments upfront, returning a function that accepts all remaining arguments in one call.",
+    "hint": "Currying turns f(a, b, c) into f(a)(b)(c). How does it differ from partial application?"
+  }
+    ];
+
+    // =========================================================================
+    // Portal Application Core Logic (Single Unified Script Block)
+    // =========================================================================
     // State Management
-    let questions = [];
+    let questions = EMBEDDED_QUESTIONS;
     let currentIdx = 0;
     let userAnswers = {}; // { questionId: answerString or Array of strings }
     let markedForReview = new Set();
@@ -1203,24 +2923,7 @@
 
     // Initialize Application
     window.addEventListener('DOMContentLoaded', () => {
-      // 1. Check if questions loaded from questions_data.js
-      if (window.EXAM_QUESTIONS && Array.isArray(window.EXAM_QUESTIONS)) {
-        questions = window.EXAM_QUESTIONS;
-        initExamPortal();
-      } else {
-        // Fallback: Attempt fetch questions_bank.json if running via web server
-        fetch('questions_bank.json')
-          .then(res => res.json())
-          .then(data => {
-            questions = data;
-            initExamPortal();
-          })
-          .catch(err => {
-            console.error("Failed to load questions_bank.json", err);
-            document.getElementById('q-prompt-text').innerHTML = 
-              "<span style='color: var(--danger);'>Error: Could not load questions data. Please ensure 'questions_data.js' or 'questions_bank.json' is in the same directory.</span>";
-          });
-      }
+      initExamPortal();
     });
 
     function initExamPortal() {
